@@ -40,7 +40,7 @@ export default function Projects({ theme: t }) {
       </div>
 
       {/* Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '14px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
         <AnimatePresence>
           {filtered.map((p) => (
             <motion.div key={p.id}
@@ -50,45 +50,74 @@ export default function Projects({ theme: t }) {
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.25 }}
               style={{
-                background: t.card, border: `0.5px solid ${t.cardBorder}`,
-                borderRadius: '10px', padding: '20px', cursor: 'default',
-                transition: 'border-color 0.25s',
-                position: 'relative', overflow: 'hidden',
+                background: t.card,
+                border: `0.5px solid ${t.cardBorder}`,
+                borderRadius: '12px',
+                overflow: 'hidden',
+                transition: 'border-color 0.25s, transform 0.2s',
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.borderColor = t.hoverBorder
-                e.currentTarget.querySelector('.top-accent').style.opacity = '1'
+                e.currentTarget.style.transform = 'translateY(-3px)'
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.borderColor = t.cardBorder
-                e.currentTarget.querySelector('.top-accent').style.opacity = '0'
+                e.currentTarget.style.transform = 'translateY(0)'
               }}
             >
-              {/* Top accent line on hover */}
-              <div className="top-accent" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: t.accent, opacity: 0, transition: 'opacity 0.25s' }} />
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-                <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: t.accentFade, display: 'flex', alignItems: 'center', justifyContent: 'center', color: t.accent, fontSize: '18px' }}>
-                  <i className={`ti ${p.icon}`} aria-hidden="true" />
+              {/* Project Image / Preview */}
+              {p.image ? (
+                <div style={{ position: 'relative', height: '180px', overflow: 'hidden' }}>
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }}
+                  />
+                  {/* Gradient overlay */}
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '60px', background: 'linear-gradient(to top, rgba(0,0,0,0.5), transparent)' }} />
+                  {/* Category badge */}
+                  <div style={{ position: 'absolute', top: '10px', left: '10px', fontSize: '10px', fontFamily: 'monospace', padding: '3px 10px', borderRadius: '4px', background: t.accentFade, color: t.accent, border: `0.5px solid ${t.accentFade}`, backdropFilter: 'blur(4px)' }}>
+                    {p.category.toUpperCase()}
+                  </div>
+                  {/* Links */}
+                  <div style={{ position: 'absolute', top: '8px', right: '8px', display: 'flex', gap: '6px' }}>
+                    <a href={p.live} target="_blank" rel="noreferrer" style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '13px', textDecoration: 'none', backdropFilter: 'blur(4px)' }}>
+                      <i className="ti ti-external-link" aria-hidden="true" />
+                    </a>
+                    <a href={p.github} target="_blank" rel="noreferrer" style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '13px', textDecoration: 'none', backdropFilter: 'blur(4px)' }}>
+                      <i className="ti ti-brand-github" aria-hidden="true" />
+                    </a>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', gap: '6px' }}>
-                  <a href={p.live} target="_blank" rel="noreferrer" style={{ width: '28px', height: '28px', borderRadius: '6px', border: `0.5px solid ${t.cardBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: t.textDim, fontSize: '13px', textDecoration: 'none' }}>
-                    <i className="ti ti-external-link" aria-hidden="true" />
-                  </a>
-                  <a href={p.github} target="_blank" rel="noreferrer" style={{ width: '28px', height: '28px', borderRadius: '6px', border: `0.5px solid ${t.cardBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: t.textDim, fontSize: '13px', textDecoration: 'none' }}>
-                    <i className="ti ti-brand-github" aria-hidden="true" />
-                  </a>
+              ) : (
+                /* No image — colored placeholder with icon */
+                <div style={{ height: '140px', background: t.accentFade, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                  <i className={`ti ${p.icon}`} style={{ fontSize: '48px', color: t.accent, opacity: 0.4 }} aria-hidden="true" />
+                  <div style={{ position: 'absolute', top: '10px', left: '10px', fontSize: '10px', fontFamily: 'monospace', padding: '3px 10px', borderRadius: '4px', background: t.accentFade, color: t.accent, border: `0.5px solid ${t.accentFade}` }}>
+                    {p.category.toUpperCase()}
+                  </div>
+                  <div style={{ position: 'absolute', top: '8px', right: '8px', display: 'flex', gap: '6px' }}>
+                    <a href={p.live} target="_blank" rel="noreferrer" style={{ width: '28px', height: '28px', borderRadius: '6px', border: `0.5px solid ${t.cardBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: t.textDim, fontSize: '13px', textDecoration: 'none' }}>
+                      <i className="ti ti-external-link" aria-hidden="true" />
+                    </a>
+                    <a href={p.github} target="_blank" rel="noreferrer" style={{ width: '28px', height: '28px', borderRadius: '6px', border: `0.5px solid ${t.cardBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: t.textDim, fontSize: '13px', textDecoration: 'none' }}>
+                      <i className="ti ti-brand-github" aria-hidden="true" />
+                    </a>
+                  </div>
                 </div>
-              </div>
+              )}
 
-              <div style={{ fontSize: '15px', fontWeight: 600, color: t.text, marginBottom: '6px' }}>{p.name}</div>
-              <div style={{ fontSize: '12px', color: t.textSub, lineHeight: 1.65, marginBottom: '14px' }}>{p.desc}</div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
-                {p.tags.map((tag) => (
-                  <span key={tag} style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '3px', border: `0.5px solid ${t.accentFade}`, color: t.tagText, background: t.tagBg, fontFamily: 'monospace' }}>
-                    {tag}
-                  </span>
-                ))}
+              {/* Card body */}
+              <div style={{ padding: '16px' }}>
+                <div style={{ fontSize: '15px', fontWeight: 600, color: t.text, marginBottom: '6px' }}>{p.name}</div>
+                <div style={{ fontSize: '12px', color: t.textSub, lineHeight: 1.65, marginBottom: '12px' }}>{p.desc}</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                  {p.tags.map((tag) => (
+                    <span key={tag} style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '3px', border: `0.5px solid ${t.accentFade}`, color: t.tagText, background: t.tagBg, fontFamily: 'monospace' }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </motion.div>
           ))}
