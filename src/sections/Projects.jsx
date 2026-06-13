@@ -117,7 +117,17 @@ export default function Projects({ theme: t }) {
                       {tag}
                     </span>
                   ))}
+                
                 </div>
+                  {p.stack && (
+                    <div style={{ display: 'flex', gap: '6px', marginTop: '10px', paddingTop: '10px', borderTop: `0.5px solid ${t.border}` }}>
+                      {p.stack.map((icon) => (
+                        <div key={icon} style={{ width: '26px', height: '26px', borderRadius: '5px', background: t.accentFade, display: 'flex', alignItems: 'center', justifyContent: 'center', color: t.accent, fontSize: '14px' }}>
+                          <i className={`ti ${icon}`} aria-hidden="true" />
+                        </div>
+                      ))}
+                    </div>
+                  )}
               </div>
             </motion.div>
           ))}
