@@ -158,7 +158,7 @@ export default function Hero({ theme: t }) {
           { num: '4+', label: 'Years exp' },
           { num: '500+', label: 'Users served' },
           { num: '40%', label: 'Perf gain' },
-          { num: '6+', label: 'Projects' },
+          { num: '43+', label: 'Projects' },
         ].map((s, i) => (
           <div key={i} style={{
             flex: '1', minWidth: '100px',
