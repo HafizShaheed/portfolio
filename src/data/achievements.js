@@ -2,7 +2,7 @@ export const stats = [
   { id: 1, num: 4,   suffix: '+', label: 'Years of experience' },
   { id: 2, num: 500, suffix: '+', label: 'Concurrent users served' },
   { id: 3, num: 40,  suffix: '%', label: 'Performance improvement' },
-  { id: 4, num: 6,   suffix: '+', label: 'Enterprise projects' },
+  { id: 4, num: 43,   suffix: '+', label: 'Enterprise projects' },
 ]
 
 export const achievementList = [
