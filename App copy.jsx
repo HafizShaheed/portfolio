@@ -8,6 +8,7 @@ import Projects from './sections/Projects'
 import Skills from './sections/Skills'
 import Achievements from './sections/Achievements'
 import Contact from './sections/Contact'
+import AIChatbot from  './components/AIChatbot'
 
 export default function App() {
   const [themeName, setThemeName] = useState(() => {
@@ -45,6 +46,7 @@ export default function App() {
       <Skills theme={theme} />
       <Achievements theme={theme} />
       <Contact theme={theme} />
+  
     </div>
   )
 }
