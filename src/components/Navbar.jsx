@@ -8,6 +8,7 @@ const links = [
   { label: 'Skills', id: 'skills' },
   { label: 'Match Score', id: 'resume-match' },
   { label: 'Contact', id: 'contact' },
+  { label: 'Hire Me', id: 'hire-me' },
 ]
 
 export default function Navbar({ theme, onThemeChange }) {
@@ -45,7 +46,7 @@ export default function Navbar({ theme, onThemeChange }) {
 
       {/* Desktop links */}
       <ul style={{ display: 'flex', gap: '24px', listStyle: 'none', margin: 0, padding: 0 }}
-          className="nav-links">
+        className="nav-links">
         {links.map((l) => (
           <li key={l.id}>
             <button
