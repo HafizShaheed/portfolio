@@ -8,7 +8,8 @@ import Projects from './sections/Projects'
 import Skills from './sections/Skills'
 import Achievements from './sections/Achievements'
 import Contact from './sections/Contact'
-import AIChatbot from  './components/AIChatbot'
+import AIChatbot from './components/AIChatbot'
+import ResumeMatch from './sections/ResumeMatch'
 
 
 export default function App() {
@@ -46,9 +47,11 @@ export default function App() {
       <Projects theme={theme} />
       <Skills theme={theme} />
       <Achievements theme={theme} />
+      <ResumeMatch theme={theme} />
       <Contact theme={theme} />
-        {/* <div style={{position: 'fixed', top: 10, left: 10, background: 'red', color: 'white', padding: '10px', zIndex: 9999}}>TEST VISIBLE</div> */}
-<AIChatbot theme={theme} />
+
+      {/* <div style={{position: 'fixed', top: 10, left: 10, background: 'red', color: 'white', padding: '10px', zIndex: 9999}}>TEST VISIBLE</div> */}
+      <AIChatbot theme={theme} />
     </div>
   )
 }
