@@ -11,6 +11,7 @@ const links = [
   { label: 'Match Score', id: 'resume-match' },
   { label: 'Code Review', id: 'code-review' },
   { label: 'Contact', id: 'contact' },
+  { label: 'Book a Call', id: 'availability' },
   { label: 'Hire Me', id: 'hire-me' },
 ]
 

@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion'
 import GithubStats from '../components/GithubStats'
 import { useIsMobile } from '../hooks/useIsMobile'
+import CurrentlyWorking from '../components/CurrentlyWorking'
+
+
 
 const skillCats = [
   { icon: 'ti-layout', label: 'Frontend', skills: ['React.js', 'Next.js', 'Nuxt.js', 'JavaScript ES6+', 'Tailwind CSS'] },
@@ -49,6 +52,7 @@ export default function About({ theme: t }) {
           <div style={{ marginTop: '20px' }}>
             <GithubStats theme={t} />
           </div>
+          <CurrentlyWorking theme={t} />
         </motion.div>
 
         {/* Right - Skills */}

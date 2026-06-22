@@ -1,6 +1,7 @@
 // src/components/GithubStats.jsx
 import { useState, useEffect } from 'react'
 import { useIsMobile } from '../hooks/useIsMobile'
+import { Skeleton } from './Skeleton'
 
 export default function GithubStats({ theme: t }) {
   const isMobile = useIsMobile()
@@ -17,7 +18,28 @@ export default function GithubStats({ theme: t }) {
       .catch(() => setLoading(false))
   }, [])
 
-  if (loading || !stats) return null
+  // Loading skeleton - blank screen ki jagah shimmer dikhao
+  if (loading) {
+    return (
+      <div style={{
+        display: 'flex', gap: isMobile ? '12px' : '20px', alignItems: 'center',
+        padding: isMobile ? '14px' : '16px 20px', background: t.card,
+        border: `0.5px solid ${t.cardBorder}`, borderRadius: '12px',
+      }}>
+        <Skeleton width="40px" height="40px" radius="50%" theme={t} />
+        <div style={{ flex: 1 }}>
+          <Skeleton width="80px" height="13px" theme={t} />
+          <div style={{ marginTop: '6px' }}>
+            <Skeleton width="100px" height="11px" theme={t} />
+          </div>
+        </div>
+        <Skeleton width="60px" height="30px" theme={t} />
+      </div>
+    )
+  }
+
+  // Fetch fail hua aur data bhi nahi mila - kuch mat dikhao
+  if (!stats) return null
 
   const items = [
     { label: 'Repos', value: stats.public_repos },
