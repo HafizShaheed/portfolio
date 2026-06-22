@@ -1,6 +1,7 @@
 export const projects = [
   {
     name: 'DevBook — Room Booking Platform',
+    slug: 'devbook',
     category: 'saas',
     icon: 'ti-building',
     image: '/images/devbook-preview.png',
@@ -17,6 +18,7 @@ export const projects = [
   },
   {
     name: 'iScreening — Background Verification',
+    slug: 'iscreening',
     category: 'crm',
     icon: 'ti-shield-check',
     image: '/images/iscreening-preview.png',
@@ -33,8 +35,10 @@ export const projects = [
   },
   {
     name: 'The Towlers — Trade Documents',
+    slug: 'the-towlers',
     category: 'erp',
     icon: 'ti-file-invoice',
+
     image: '/images/towlers-preview.png',
     desc: 'Complete export trade document management system. Generates Commercial Invoices, Packing Lists, Certificates of Origin, Canada invoices, and Textile Declarations with PDF export.',
     tags: ['Laravel', 'PHP', 'MySQL', 'DomPDF', 'jQuery', 'RBAC'],
@@ -49,8 +53,10 @@ export const projects = [
   },
   {
     name: 'Assets Marketing Platform',
+    slug: 'assets-marketing-platform',
     category: 'saas',
     icon: 'ti-chart-bar',
+
     image: '/images/assets-marketing-preview.png',
     desc: 'Marketing order management system with contract signing via HelloSign, payment processor integration, product management, and user role control.',
     tags: ['Laravel', 'PHP', 'MySQL', 'HelloSign', 'Stripe', 'jQuery'],
@@ -65,6 +71,7 @@ export const projects = [
   },
   {
     name: 'Fractal of Mind — Brain Games',
+    slug: 'fractal-of-mind',
     category: 'saas',
     icon: 'ti-brain',
     image: '/images/fractal-of-mind-preview.png',
@@ -81,6 +88,7 @@ export const projects = [
   },
   {
     name: 'DEMORF VDI — Asset Management',
+    slug: 'demorf-vdi',
     category: 'erp',
     icon: 'ti-building-factory',
     image: '/images/demorf-vdi-preview.png',
@@ -97,6 +105,7 @@ export const projects = [
   },
   {
     name: 'WeWatch — HSE Platform',
+    slug: 'wewatch',
     category: 'erp',
     icon: 'ti-alert-triangle',
     image: '/images/wewatch-preview.png',
@@ -113,6 +122,7 @@ export const projects = [
   },
   {
     name: 'MyTailor — Custom Clothing',
+    slug: 'mytailor',
     category: 'ecommerce',
     icon: 'ti-scissors',
     image: '/images/mytailor-preview.png',
@@ -129,6 +139,7 @@ export const projects = [
   },
   {
     name: 'WellbeGood — Wellness Booking',
+    slug: 'wellbegood',
     category: 'saas',
     icon: 'ti-heart-rate-monitor',
     image: '/images/wellbegood-preview.png',
@@ -145,6 +156,7 @@ export const projects = [
   },
   {
     name: 'Lucid Your Notes — LMS',
+    slug: 'lucid-your-notes',
     category: 'saas',
     icon: 'ti-notebook',
     image: '/images/lucid-notes-preview.png',
@@ -161,6 +173,7 @@ export const projects = [
   },
   {
     name: 'HelpFree — Find Helpers',
+    slug: 'helpfree',
     category: 'saas',
     icon: 'ti-hand-help',
     image: '/images/helpfree-preview.png',
@@ -177,6 +190,7 @@ export const projects = [
   },
   {
     name: 'BSB2 — Multi-Vendor Marketplace',
+    slug: 'bsb2',
     category: 'ecommerce',
     icon: 'ti-shopping-bag',
     image: '/images/bsb2-preview.png',
@@ -193,6 +207,7 @@ export const projects = [
   },
   {
     name: 'SSEP SMS — Complaint Portal',
+    slug: 'ssep-sms',
     category: 'crm',
     icon: 'ti-message-report',
     image: '/images/ssep-sms-preview.png',
@@ -209,6 +224,7 @@ export const projects = [
   },
   {
     name: 'People & Pro — HR System',
+    slug: 'people-pro',
     category: 'erp',
     icon: 'ti-users-group',
     image: '/images/people-and-pro-preview.png',
@@ -225,6 +241,7 @@ export const projects = [
   },
   {
     name: 'CI Pro API — CodeIgniter App',
+    slug: 'ci-pro-api',
     category: 'saas',
     icon: 'ti-api',
     image: '/images/ci-codeigniter-preview.png',
@@ -241,6 +258,7 @@ export const projects = [
   },
   {
     name: 'WorkWise — Job Portal',
+    slug: 'workwise',
     category: 'saas',
     icon: 'ti-briefcase',
     image: '/images/workwise-jobs-preview.png',
@@ -257,6 +275,7 @@ export const projects = [
   },
   {
     name: 'Peak of Learning — eLearning',
+    slug: 'peak-of-learning',
     category: 'saas',
     icon: 'ti-certificate',
     image: '/images/peakoflearning-preview.png',
@@ -273,6 +292,7 @@ export const projects = [
   },
   {
     name: 'DEVTOBI — Order Management',
+    slug: 'devtobi',
     category: 'ecommerce',
     icon: 'ti-package',
     image: '/images/devtobi-orders-preview.png',
@@ -289,6 +309,7 @@ export const projects = [
   },
   {
     name: 'StreamingLiveSquare — Video Platform',
+    slug: 'streaminglivesquare',
     category: 'saas',
     icon: 'ti-video',
     image: '/images/streaming-square-preview.png',
@@ -305,6 +326,7 @@ export const projects = [
   },
   {
     name: 'FunForClub — Kids Activities',
+    slug: 'funforclub',
     category: 'saas',
     icon: 'ti-ball-american-football',
     image: '/images/funforclub-preview.png',
@@ -321,6 +343,7 @@ export const projects = [
   },
   {
     name: 'Vacation Dream Haven — Travel',
+    slug: 'vacation-dream-haven',
     category: 'ecommerce',
     icon: 'ti-beach',
     image: '/images/vacation-haven-preview.png',
@@ -337,6 +360,7 @@ export const projects = [
   },
   {
     name: 'Pufu — Lifestyle eCommerce',
+    slug: 'pufu',
     category: 'ecommerce',
     icon: 'ti-shopping-bag',
     image: '/images/pufu-store-preview.png',
@@ -353,6 +377,7 @@ export const projects = [
   },
   {
     name: 'Chatify — Real-time Chat App',
+    slug: 'chatify',
     category: 'saas',
     icon: 'ti-message-circle',
     image: '/images/chatify-preview.png',
@@ -369,6 +394,7 @@ export const projects = [
   },
   {
     name: 'ArranDev — eCommerce Store',
+    slug: 'arrandev',
     category: 'ecommerce',
     icon: 'ti-shopping-cart',
     image: '/images/arrandev-ecommerce-preview.png',
@@ -385,6 +411,7 @@ export const projects = [
   },
   {
     name: 'Sales App — CRM & Leads',
+    slug: 'sales-app',
     category: 'crm',
     icon: 'ti-chart-arrows-vertical',
     image: '/images/salesapp-preview.png',
@@ -401,6 +428,7 @@ export const projects = [
   },
   {
     name: 'WeWatch Frontend — Analytics',
+    slug: 'wewatch-frontend',
     category: 'saas',
     icon: 'ti-device-tv',
     image: '/images/wewatch-nuxt-preview.png',
@@ -417,6 +445,7 @@ export const projects = [
   },
   {
     name: 'Zetta Membership Platform',
+    slug: 'zetta-membership-platform',
     category: 'saas',
     icon: 'ti-crown',
     image: '/images/zetta-membership-preview.png',
@@ -433,6 +462,7 @@ export const projects = [
   },
   {
     name: 'Micahha — Art Marketplace',
+    slug: 'micahha',
     category: 'ecommerce',
     icon: 'ti-palette',
     image: '/images/micahha-marketplace-preview.png',
@@ -449,6 +479,7 @@ export const projects = [
   },
   {
     name: 'Lab Optimal — Medical Lab',
+    slug: 'lab-optimal',
     category: 'saas',
     icon: 'ti-microscope',
     image: '/images/lab-optimal-preview.png',
@@ -465,6 +496,7 @@ export const projects = [
   },
   {
     name: 'EdgieDev — Developer Blog',
+    slug: 'edgiedev',
     category: 'cms',
     icon: 'ti-article',
     image: '/images/edgiedev-preview.png',
@@ -481,6 +513,7 @@ export const projects = [
   },
   {
     name: 'DevLife Media Capture',
+    slug: 'devlife-media-capture',
     category: 'ecommerce',
     icon: 'ti-camera',
     image: '/images/devlife-media-preview.png',
@@ -497,6 +530,7 @@ export const projects = [
   },
   {
     name: 'Lead Management System',
+    slug: 'lead-management-system',
     category: 'crm',
     icon: 'ti-funnel',
     image: '/images/lead-management-preview.png',
@@ -513,6 +547,7 @@ export const projects = [
   },
   {
     name: 'HPS VR — Admin Panel',
+    slug: 'hps-vr',
     category: 'saas',
     icon: 'ti-layout-dashboard',
     image: '/images/hpsvr-preview.png',
@@ -527,9 +562,9 @@ export const projects = [
     github: 'https://github.com/HafizShaheed/DemoDivHpsVr',
     live: '#',
   },
-  
   {
     name: 'Docowear — Logistics Platform',
+    slug: 'docowear',
     category: 'erp',
     icon: 'ti-truck',
     image: '/images/docowear-preview.png',
@@ -546,6 +581,7 @@ export const projects = [
   },
   {
     name: 'DevDemoHRM — HR System',
+    slug: 'devdemohrm',
     category: 'erp',
     icon: 'ti-id-badge',
     image: '/images/hrm-preview.png',
@@ -562,6 +598,7 @@ export const projects = [
   },
   {
     name: 'Collage CRM — Student CRM',
+    slug: 'collage-crm',
     category: 'crm',
     icon: 'ti-school',
     image: '/images/collage-crm-preview.png',
@@ -578,6 +615,7 @@ export const projects = [
   },
   {
     name: 'ERP System — Hamdard University',
+    slug: 'erp-system',
     category: 'erp',
     icon: 'ti-building-skyscraper',
     image: null,
@@ -594,6 +632,7 @@ export const projects = [
   },
   {
     name: 'SaaS Dashboard',
+    slug: 'saas-dashboard',
     category: 'saas',
     icon: 'ti-layout-dashboard',
     image: null,
@@ -610,6 +649,7 @@ export const projects = [
   },
   {
     name: 'eCommerce Platform',
+    slug: 'ecommerce-platform',
     category: 'ecommerce',
     icon: 'ti-shopping-cart',
     image: null,
@@ -626,6 +666,7 @@ export const projects = [
   },
   {
     name: 'CRM System',
+    slug: 'crm-system',
     category: 'crm',
     icon: 'ti-users',
     image: null,
@@ -642,6 +683,7 @@ export const projects = [
   },
   {
     name: 'CMS Platform',
+    slug: 'cms-platform',
     category: 'cms',
     icon: 'ti-file-text',
     image: null,
@@ -658,6 +700,7 @@ export const projects = [
   },
   {
     name: 'Q-Bank System',
+    slug: 'q-bank-system',
     category: 'erp',
     icon: 'ti-book',
     image: null,

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const skillGroups = [
   {
@@ -48,22 +49,24 @@ const skillGroups = [
 ]
 
 export default function Skills({ theme: t }) {
+  const isMobile = useIsMobile()
+
   return (
-    <section id="skills" style={{ padding: '56px 40px', borderTop: `0.5px solid ${t.border}` }}>
+    <section id="skills" style={{ padding: isMobile ? '40px 20px' : '56px 40px', borderTop: `0.5px solid ${t.border}` }}>
 
       <div style={{ fontFamily: 'monospace', fontSize: '11px', color: t.accent, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
         <span style={{ width: '22px', height: '0.5px', background: t.accent, display: 'inline-block' }} />
         04 — Skills
       </div>
 
-      <h2 style={{ fontSize: '26px', fontWeight: 700, color: t.text, letterSpacing: '-0.02em', marginBottom: '8px' }}>
+      <h2 style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: 700, color: t.text, letterSpacing: '-0.02em', marginBottom: '8px' }}>
         What I Work With
       </h2>
-      <p style={{ fontSize: '13px', color: t.textSub, marginBottom: '36px' }}>
+      <p style={{ fontSize: '13px', color: t.textSub, marginBottom: isMobile ? '24px' : '36px' }}>
         Technologies I use daily to build production-grade applications
       </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
         {skillGroups.map((group, gi) => (
           <motion.div
             key={group.category}

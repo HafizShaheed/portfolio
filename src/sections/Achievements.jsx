@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { stats, achievementList } from '../data/achievements'
+import { useIsMobile } from '../hooks/useIsMobile'
 
-function Counter({ target, suffix, theme: t }) {
+function Counter({ target, suffix, theme: t, isMobile }) {
   const [count, setCount] = useState(0)
   const ref = useRef(null)
   const started = useRef(false)
@@ -25,35 +26,37 @@ function Counter({ target, suffix, theme: t }) {
   }, [target])
 
   return (
-    <span ref={ref} style={{ fontSize: '28px', fontWeight: 700, color: t.accent, fontFamily: 'monospace' }}>
+    <span ref={ref} style={{ fontSize: isMobile ? '22px' : '28px', fontWeight: 700, color: t.accent, fontFamily: 'monospace' }}>
       {count}{suffix}
     </span>
   )
 }
 
 export default function Achievements({ theme: t }) {
+  const isMobile = useIsMobile()
+
   return (
-    <section id="achievements" style={{ padding: '56px 40px', borderTop: `0.5px solid ${t.border}` }}>
+    <section id="achievements" style={{ padding: isMobile ? '40px 20px' : '56px 40px', borderTop: `0.5px solid ${t.border}` }}>
       <div style={{ fontFamily: 'monospace', fontSize: '11px', color: t.accent, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
         <span style={{ width: '22px', height: '0.5px', background: t.accent, display: 'inline-block' }} />
         04 — Achievements
       </div>
-      <h2 style={{ fontSize: '26px', fontWeight: 700, color: t.text, letterSpacing: '-0.02em', marginBottom: '32px' }}>
+      <h2 style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: 700, color: t.text, letterSpacing: '-0.02em', marginBottom: isMobile ? '24px' : '32px' }}>
         By the Numbers
       </h2>
 
       {/* Stat cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '14px', marginBottom: '28px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(140px, 1fr))', gap: isMobile ? '10px' : '14px', marginBottom: isMobile ? '24px' : '28px' }}>
         {stats.map((s, i) => (
           <motion.div key={s.id}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: i * 0.1 }}
             viewport={{ once: true }}
-            style={{ background: t.statCard, border: `0.5px solid ${t.cardBorder}`, borderRadius: '10px', padding: '20px 16px', textAlign: 'center' }}
+            style={{ background: t.statCard, border: `0.5px solid ${t.cardBorder}`, borderRadius: '10px', padding: isMobile ? '16px 12px' : '20px 16px', textAlign: 'center' }}
           >
-            <Counter target={s.num} suffix={s.suffix} theme={t} />
-            <div style={{ fontSize: '11px', color: t.textSub, lineHeight: 1.4, marginTop: '4px' }}>{s.label}</div>
+            <Counter target={s.num} suffix={s.suffix} theme={t} isMobile={isMobile} />
+            <div style={{ fontSize: isMobile ? '10px' : '11px', color: t.textSub, lineHeight: 1.4, marginTop: '4px' }}>{s.label}</div>
           </motion.div>
         ))}
       </div>
@@ -66,7 +69,7 @@ export default function Achievements({ theme: t }) {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.35, delay: i * 0.08 }}
             viewport={{ once: true }}
-            style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '12px 16px', background: t.card, border: `0.5px solid ${t.cardBorder}`, borderRadius: '8px' }}
+            style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: isMobile ? '12px' : '12px 16px', background: t.card, border: `0.5px solid ${t.cardBorder}`, borderRadius: '8px' }}
           >
             <i className={`ti ${a.icon}`} style={{ color: t.accent, fontSize: '16px', marginTop: '1px', flexShrink: 0 }} aria-hidden="true" />
             <p style={{ fontSize: '13px', color: t.textSub, lineHeight: 1.6 }}>{a.text}</p>

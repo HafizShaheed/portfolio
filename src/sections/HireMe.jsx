@@ -1,6 +1,7 @@
 // src/sections/HireMe.jsx
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const packages = [
   {
@@ -28,8 +29,9 @@ const packages = [
 ]
 
 export default function HireMe({ theme: t }) {
+  const isMobile = useIsMobile()
   const [form, setForm] = useState({ name: '', email: '', projectType: '', budget: '', message: '' })
-  const [status, setStatus] = useState('idle') // idle, sending, success, error
+  const [status, setStatus] = useState('idle')
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -60,25 +62,25 @@ export default function HireMe({ theme: t }) {
   }
 
   return (
-    <section id="hire-me" style={{ padding: '56px 40px', borderTop: `0.5px solid ${t.border}` }}>
+    <section id="hire-me" style={{ padding: isMobile ? '40px 20px' : '56px 40px', borderTop: `0.5px solid ${t.border}` }}>
       <div style={{ fontFamily: 'monospace', fontSize: '11px', color: t.accent, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
         <span style={{ width: '22px', height: '0.5px', background: t.accent, display: 'inline-block' }} />
         07 — Hire Me
       </div>
-      <h2 style={{ fontSize: '26px', fontWeight: 700, color: t.text, letterSpacing: '-0.02em', marginBottom: '8px' }}>
+      <h2 style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: 700, color: t.text, letterSpacing: '-0.02em', marginBottom: '8px' }}>
         Let's Build Something Together
       </h2>
-      <p style={{ fontSize: '13px', color: t.textSub, marginBottom: '32px', maxWidth: '550px', lineHeight: 1.7 }}>
+      <p style={{ fontSize: '13px', color: t.textSub, marginBottom: isMobile ? '24px' : '32px', maxWidth: isMobile ? '100%' : '550px', lineHeight: 1.7 }}>
         Available for freelance projects — from quick fixes to complete applications. Choose a package or send a custom inquiry.
       </p>
 
       {/* Pricing packages */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px', marginBottom: '40px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px', marginBottom: isMobile ? '28px' : '40px' }}>
         {packages.map((pkg) => (
           <div key={pkg.name} style={{
             background: t.card,
             border: `0.5px solid ${pkg.popular ? t.accent : t.cardBorder}`,
-            borderRadius: '12px', padding: '22px',
+            borderRadius: '12px', padding: isMobile ? '18px' : '22px',
             position: 'relative',
           }}>
             {pkg.popular && (
@@ -105,7 +107,7 @@ export default function HireMe({ theme: t }) {
       </div>
 
       {/* Inquiry form */}
-      <div style={{ background: t.card, border: `0.5px solid ${t.cardBorder}`, borderRadius: '14px', padding: '28px', maxWidth: '600px' }}>
+      <div style={{ background: t.card, border: `0.5px solid ${t.cardBorder}`, borderRadius: '14px', padding: isMobile ? '20px' : '28px', maxWidth: isMobile ? '100%' : '600px' }}>
         <h3 style={{ fontSize: '16px', fontWeight: 600, color: t.text, marginBottom: '18px' }}>
           Send a Project Inquiry
         </h3>
@@ -125,7 +127,7 @@ export default function HireMe({ theme: t }) {
           </motion.div>
         ) : (
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '12px' }}>
               <input
                 name="name" value={form.name} onChange={handleChange}
                 placeholder="Your name" required
@@ -138,7 +140,7 @@ export default function HireMe({ theme: t }) {
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '12px' }}>
               <select name="projectType" value={form.projectType} onChange={handleChange} style={inputStyle(t)}>
                 <option value="">Project type</option>
                 <option value="Bug fix / Small task">Bug fix / Small task</option>
@@ -189,5 +191,6 @@ function inputStyle(t) {
     padding: '10px 14px', borderRadius: '8px',
     border: `0.5px solid ${t.cardBorder}`, background: t.bg,
     color: t.text, fontSize: '13px', outline: 'none',
+    width: '100%',
   }
 }

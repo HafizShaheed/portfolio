@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion'
+import GithubStats from '../components/GithubStats'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const skillCats = [
   { icon: 'ti-layout', label: 'Frontend', skills: ['React.js', 'Next.js', 'Nuxt.js', 'JavaScript ES6+', 'Tailwind CSS'] },
@@ -8,20 +10,22 @@ const skillCats = [
 ]
 
 export default function About({ theme: t }) {
+  const isMobile = useIsMobile()
+
   return (
-    <section id="about" style={{ padding: '56px 40px', borderTop: `0.5px solid ${t.border}` }}>
+    <section id="about" style={{ padding: isMobile ? '40px 20px' : '56px 40px', borderTop: `0.5px solid ${t.border}` }}>
       {/* Section label */}
       <div style={{ fontFamily: 'monospace', fontSize: '11px', color: t.accent, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
         <span style={{ width: '22px', height: '0.5px', background: t.accent, display: 'inline-block' }} />
         01 — About
       </div>
-      <h2 style={{ fontSize: '26px', fontWeight: 700, color: t.text, letterSpacing: '-0.02em', marginBottom: '32px' }}>
+      <h2 style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: 700, color: t.text, letterSpacing: '-0.02em', marginBottom: isMobile ? '24px' : '32px' }}>
         Who I Am
       </h2>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '28px' : '32px' }}>
         {/* Left */}
-        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+        <motion.div initial={{ opacity: 0, x: isMobile ? 0 : -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
           <p style={{ fontSize: '14px', color: t.textSub, lineHeight: 1.8, marginBottom: '16px' }}>
             Full Stack Developer with <span style={{ color: t.accent, fontWeight: 500 }}>4+ years</span> of experience building scalable, high-performance web applications. Specialized in <span style={{ color: t.accent, fontWeight: 500 }}>Laravel, React.js, and Node.js</span>.
           </p>
@@ -35,17 +39,20 @@ export default function About({ theme: t }) {
               { icon: 'ti-school',        label: 'Education', val: 'BS Computer Science — 2022' },
               { icon: 'ti-mail',          label: 'Email',     val: 'shaheedkhan336@gmail.com' },
             ].map((row) => (
-              <div key={row.label} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px' }}>
-                <i className={`ti ${row.icon}`} style={{ color: t.accent, fontSize: '15px' }} aria-hidden="true" />
-                <span style={{ color: t.textDim, minWidth: '80px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: 'monospace' }}>{row.label}</span>
-                <span style={{ color: t.textSub }}>{row.val}</span>
+              <div key={row.label} style={{ display: 'flex', alignItems: isMobile ? 'flex-start' : 'center', gap: '10px', fontSize: '13px', flexWrap: isMobile ? 'wrap' : 'nowrap' }}>
+                <i className={`ti ${row.icon}`} style={{ color: t.accent, fontSize: '15px', marginTop: isMobile ? '2px' : 0 }} aria-hidden="true" />
+                <span style={{ color: t.textDim, minWidth: isMobile ? 'auto' : '80px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: 'monospace' }}>{row.label}</span>
+                <span style={{ color: t.textSub, wordBreak: 'break-word' }}>{row.val}</span>
               </div>
             ))}
+          </div>
+          <div style={{ marginTop: '20px' }}>
+            <GithubStats theme={t} />
           </div>
         </motion.div>
 
         {/* Right - Skills */}
-        <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}
+        <motion.div initial={{ opacity: 0, x: isMobile ? 0 : 20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}
           style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {skillCats.map((cat) => (
             <div key={cat.label} style={{

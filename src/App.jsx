@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { themes } from './theme'
 import Navbar from './components/Navbar'
 import Hero from './sections/Hero'
@@ -8,10 +9,30 @@ import Projects from './sections/Projects'
 import Skills from './sections/Skills'
 import Achievements from './sections/Achievements'
 import Contact from './sections/Contact'
-import AIChatbot from './components/AIChatbot'
 import ResumeMatch from './sections/ResumeMatch'
 import HireMe from './sections/HireMe'
+import AIChatbot from './components/AIChatbot'
+import ProjectDetail from './pages/ProjectDetail'
+import ScrollProgress from './components/ScrollProgress'
+import CodeReview from './sections/CodeReview'
 
+// Homepage - sab sections ek saath
+function HomePage({ theme }) {
+  return (
+    <>
+      <Hero theme={theme} />
+      <About theme={theme} />
+      <Experience theme={theme} />
+      <Projects theme={theme} />
+      <Skills theme={theme} />
+      <Achievements theme={theme} />
+      <ResumeMatch theme={theme} />
+      <CodeReview theme={theme} />
+      <HireMe theme={theme} />
+      <Contact theme={theme} />
+    </>
+  )
+}
 
 export default function App() {
   const [themeName, setThemeName] = useState(() => {
@@ -27,33 +48,32 @@ export default function App() {
   }, [themeName, theme])
 
   return (
-    <div style={{
-      background: theme.bg,
-      color: theme.text,
-      minHeight: '100vh',
-      transition: 'background 0.4s, color 0.4s',
-      position: 'relative',
-    }}>
-      {/* Left accent line */}
+    <BrowserRouter>
       <div style={{
-        position: 'fixed', left: 0, top: 0, bottom: 0, width: '2px',
-        background: `linear-gradient(to bottom, transparent, ${theme.accent}, transparent)`,
-        opacity: 0.3, pointerEvents: 'none', zIndex: 999,
-      }} />
+        background: theme.bg,
+        color: theme.text,
+        minHeight: '100vh',
+        transition: 'background 0.4s, color 0.4s',
+        position: 'relative',
+      }}>
+        {/* Left accent line */}
+        <div style={{
+          position: 'fixed', left: 0, top: 0, bottom: 0, width: '2px',
+          background: `linear-gradient(to bottom, transparent, ${theme.accent}, transparent)`,
+          opacity: 0.3, pointerEvents: 'none', zIndex: 999,
+        }} />
 
-      <Navbar theme={theme} onThemeChange={setThemeName} />
-      <Hero theme={theme} />
-      <About theme={theme} />
-      <Experience theme={theme} />
-      <Projects theme={theme} />
-      <Skills theme={theme} />
-      <Achievements theme={theme} />
-      <ResumeMatch theme={theme} />
-      <Contact theme={theme} />
-      <HireMe theme={theme} />
+        <ScrollProgress theme={theme} />
+        <Navbar theme={theme} onThemeChange={setThemeName} />
 
-      {/* <div style={{position: 'fixed', top: 10, left: 10, background: 'red', color: 'white', padding: '10px', zIndex: 9999}}>TEST VISIBLE</div> */}
-      <AIChatbot theme={theme} />
-    </div>
+        {/* Routes - yahan decide hota hai konsa page dikhana hai */}
+        <Routes>
+          <Route path="/" element={<HomePage theme={theme} />} />
+          <Route path="/projects/:slug" element={<ProjectDetail theme={theme} />} />
+        </Routes>
+
+        <AIChatbot theme={theme} />
+      </div>
+    </BrowserRouter>
   )
 }

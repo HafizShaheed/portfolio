@@ -1,8 +1,10 @@
 // src/sections/ResumeMatch.jsx
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 export default function ResumeMatch({ theme: t }) {
+  const isMobile = useIsMobile()
   const [jobDescription, setJobDescription] = useState('')
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -39,35 +41,34 @@ export default function ResumeMatch({ theme: t }) {
     }
   }
 
-  // Score ke hisab se color decide karo
   const getScoreColor = (score) => {
     if (score >= 75) return t.green
-    if (score >= 50) return '#FBBF24' // yellow
-    return '#F87171' // red
+    if (score >= 50) return '#FBBF24'
+    return '#F87171'
   }
 
   return (
-    <section id="resume-match" style={{ padding: '56px 40px', borderTop: `0.5px solid ${t.border}` }}>
+    <section id="resume-match" style={{ padding: isMobile ? '40px 20px' : '56px 40px', borderTop: `0.5px solid ${t.border}` }}>
       <div style={{ fontFamily: 'monospace', fontSize: '11px', color: t.accent, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
         <span style={{ width: '22px', height: '0.5px', background: t.accent, display: 'inline-block' }} />
         05 — AI Match Score
       </div>
-      <h2 style={{ fontSize: '26px', fontWeight: 700, color: t.text, letterSpacing: '-0.02em', marginBottom: '8px' }}>
+      <h2 style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: 700, color: t.text, letterSpacing: '-0.02em', marginBottom: '8px' }}>
         Am I a Good Fit for Your Role?
       </h2>
-      <p style={{ fontSize: '13px', color: t.textSub, marginBottom: '28px', maxWidth: '500px', lineHeight: 1.7 }}>
+      <p style={{ fontSize: '13px', color: t.textSub, marginBottom: isMobile ? '20px' : '28px', maxWidth: isMobile ? '100%' : '500px', lineHeight: 1.7 }}>
         Paste your job description below and let AI instantly calculate how well my skills match your requirements.
       </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: result ? '1fr 1fr' : '1fr', gap: '24px', maxWidth: '900px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: (result && !isMobile) ? '1fr 1fr' : '1fr', gap: '24px', maxWidth: isMobile ? '100%' : '900px' }}>
         {/* Input side */}
         <div>
           <textarea
             value={jobDescription}
             onChange={(e) => setJobDescription(e.target.value)}
-            placeholder="Paste the job description here... e.g. 'We are looking for a Full Stack Developer with 3+ years experience in Laravel and React.js...'"
+            placeholder="Paste the job description here..."
             style={{
-              width: '100%', minHeight: '180px', padding: '14px',
+              width: '100%', minHeight: isMobile ? '140px' : '180px', padding: '14px',
               borderRadius: '10px', border: `0.5px solid ${t.cardBorder}`,
               background: t.card, color: t.text, fontSize: '13px',
               fontFamily: 'inherit', resize: 'vertical', outline: 'none',
@@ -87,24 +88,24 @@ export default function ResumeMatch({ theme: t }) {
               border: 'none', padding: '11px 28px', borderRadius: '7px',
               fontSize: '13px', fontWeight: 500, cursor: loading ? 'default' : 'pointer',
               opacity: loading ? 0.6 : 1,
+              width: isMobile ? '100%' : 'auto',
             }}
           >
             {loading ? 'Analyzing...' : 'Analyze Match'}
           </button>
         </div>
 
-        {/* Result side - sirf jab result mil jaye */}
+        {/* Result side */}
         {result && (
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: isMobile ? 0 : 20, y: isMobile ? 20 : 0 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ duration: 0.4 }}
-            style={{ background: t.card, border: `0.5px solid ${t.cardBorder}`, borderRadius: '12px', padding: '24px' }}
+            style={{ background: t.card, border: `0.5px solid ${t.cardBorder}`, borderRadius: '12px', padding: isMobile ? '18px' : '24px' }}
           >
-            {/* Score circle */}
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <div style={{
-                fontSize: '42px', fontWeight: 700, fontFamily: 'monospace',
+                fontSize: isMobile ? '36px' : '42px', fontWeight: 700, fontFamily: 'monospace',
                 color: getScoreColor(result.matchScore),
               }}>
                 {result.matchScore}%
@@ -114,7 +115,6 @@ export default function ResumeMatch({ theme: t }) {
               </div>
             </div>
 
-            {/* Progress bar */}
             <div style={{ height: '6px', background: t.accentFade, borderRadius: '3px', marginBottom: '20px', overflow: 'hidden' }}>
               <motion.div
                 initial={{ width: 0 }}
@@ -124,12 +124,10 @@ export default function ResumeMatch({ theme: t }) {
               />
             </div>
 
-            {/* Summary */}
             <p style={{ fontSize: '13px', color: t.textSub, lineHeight: 1.7, marginBottom: '20px' }}>
               {result.summary}
             </p>
 
-            {/* Matching skills */}
             {result.matchingSkills?.length > 0 && (
               <div style={{ marginBottom: '16px' }}>
                 <div style={{ fontSize: '11px', color: t.green, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '8px', fontFamily: 'monospace' }}>
@@ -145,7 +143,6 @@ export default function ResumeMatch({ theme: t }) {
               </div>
             )}
 
-            {/* Missing skills */}
             {result.missingSkills?.length > 0 && (
               <div>
                 <div style={{ fontSize: '11px', color: '#FBBF24', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '8px', fontFamily: 'monospace' }}>

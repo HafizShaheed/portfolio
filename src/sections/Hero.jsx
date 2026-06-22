@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const titles = ['Full Stack Developer', 'Laravel Expert', 'React.js Developer', 'Node.js Developer', 'API Architect']
 const tags = ['Laravel', 'React.js', 'Next.js', 'Node.js', 'MySQL', 'MongoDB', 'AWS', 'REST APIs', 'Docker']
 
 export default function Hero({ theme: t }) {
+  const isMobile = useIsMobile()
   const [titleIdx, setTitleIdx] = useState(0)
   const [displayed, setDisplayed] = useState('')
   const [typing, setTyping] = useState(true)
@@ -33,7 +35,7 @@ export default function Hero({ theme: t }) {
   const fadeUp = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } }
 
   return (
-    <section id="hero" style={{ padding: '60px 40px 48px', position: 'relative', overflow: 'hidden' }}>
+    <section id="hero" style={{ padding: isMobile ? '40px 20px 32px' : '60px 40px 48px', position: 'relative', overflow: 'hidden' }}>
       {/* Glow bg */}
       <div style={{
         position: 'absolute', width: '500px', height: '500px',
@@ -45,16 +47,16 @@ export default function Hero({ theme: t }) {
         {/* Available badge */}
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: '7px',
-          fontSize: '11px', fontFamily: 'monospace', color: t.green,
+          fontSize: isMobile ? '10px' : '11px', fontFamily: 'monospace', color: t.green,
           background: t.greenFade, border: `0.5px solid ${t.greenBorder}`,
-          padding: '4px 14px', borderRadius: '20px', marginBottom: '22px',
+          padding: '4px 14px', borderRadius: '20px', marginBottom: isMobile ? '16px' : '22px',
         }}>
           <span style={{
             width: '6px', height: '6px', background: t.green,
             borderRadius: '50%', display: 'inline-block',
             animation: 'pulse 2s infinite',
           }} />
-          Available — Karachi / Remote / Immediate Joiner
+          {isMobile ? 'Available — Remote' : 'Available — Karachi / Remote / Immediate Joiner'}
         </div>
       </motion.div>
 
@@ -71,9 +73,9 @@ export default function Hero({ theme: t }) {
 
         {/* Name */}
         <h1 style={{
-          fontSize: 'clamp(36px, 5vw, 54px)', fontWeight: 700,
+          fontSize: isMobile ? 'clamp(28px, 9vw, 40px)' : 'clamp(36px, 5vw, 54px)', fontWeight: 700,
           lineHeight: 1.08, letterSpacing: '-0.025em',
-          color: t.text, marginBottom: '12px',
+          color: t.text, marginBottom: '12px', wordBreak: 'break-word',
         }}>
           Hafiz{' '}
           <span style={{ color: t.accent }}>Shaheed</span>
@@ -81,8 +83,9 @@ export default function Hero({ theme: t }) {
 
         {/* Typewriter */}
         <div style={{
-          fontFamily: 'monospace', fontSize: '15px', color: t.textSub,
+          fontFamily: 'monospace', fontSize: isMobile ? '13px' : '15px', color: t.textSub,
           marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '6px', minHeight: '28px',
+          flexWrap: 'wrap',
         }}>
           {displayed}
           <span style={{
@@ -95,18 +98,18 @@ export default function Hero({ theme: t }) {
       <motion.div variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.5, delay: 0.2 }}>
         {/* Description */}
         <p style={{
-          fontSize: '14px', color: t.textSub, lineHeight: 1.8,
-          maxWidth: '520px', marginBottom: '28px',
+          fontSize: isMobile ? '13px' : '14px', color: t.textSub, lineHeight: 1.8,
+          maxWidth: isMobile ? '100%' : '520px', marginBottom: '28px',
         }}>
           4+ years building enterprise web apps — ERP systems, SaaS platforms, and REST APIs
           serving 500+ concurrent users. Based in Karachi, open to onsite and remote.
         </p>
 
         {/* Tags */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px', marginBottom: '32px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px', marginBottom: isMobile ? '24px' : '32px' }}>
           {tags.map((tag) => (
             <span key={tag} style={{
-              fontSize: '11px', fontFamily: 'monospace', padding: '4px 10px',
+              fontSize: isMobile ? '10px' : '11px', fontFamily: 'monospace', padding: '4px 10px',
               borderRadius: '4px', border: `0.5px solid ${t.accentFade}`,
               color: t.tagText, background: t.tagBg, letterSpacing: '0.03em',
             }}>{tag}</span>
@@ -119,8 +122,9 @@ export default function Hero({ theme: t }) {
             onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
             style={{
               background: t.btnBg, color: '#fff', border: 'none',
-              padding: '11px 26px', borderRadius: '7px', fontSize: '13px',
+              padding: isMobile ? '10px 20px' : '11px 26px', borderRadius: '7px', fontSize: '13px',
               fontFamily: 'inherit', fontWeight: 500, cursor: 'pointer',
+              flex: isMobile ? '1 1 100%' : 'initial',
             }}
           >
             View My Work
@@ -128,18 +132,20 @@ export default function Hero({ theme: t }) {
           <a href="https://github.com/HafizShaheed" target="_blank" rel="noreferrer"
             style={{
               background: 'transparent', color: t.textSub, border: `0.5px solid rgba(107,114,128,0.3)`,
-              padding: '11px 20px', borderRadius: '7px', fontSize: '13px',
+              padding: isMobile ? '10px 16px' : '11px 20px', borderRadius: '7px', fontSize: '13px',
               fontFamily: 'inherit', cursor: 'pointer', display: 'flex',
               alignItems: 'center', gap: '7px', textDecoration: 'none',
+              flex: isMobile ? '1 1 auto' : 'initial', justifyContent: 'center',
             }}>
             <i className="ti ti-brand-github" aria-hidden="true" /> GitHub
           </a>
           <a href="https://linkedin.com/in/hafiz-shaheed-b17796141" target="_blank" rel="noreferrer"
             style={{
               background: 'transparent', color: t.textSub, border: `0.5px solid rgba(107,114,128,0.3)`,
-              padding: '11px 20px', borderRadius: '7px', fontSize: '13px',
+              padding: isMobile ? '10px 16px' : '11px 20px', borderRadius: '7px', fontSize: '13px',
               fontFamily: 'inherit', cursor: 'pointer', display: 'flex',
               alignItems: 'center', gap: '7px', textDecoration: 'none',
+              flex: isMobile ? '1 1 auto' : 'initial', justifyContent: 'center',
             }}>
             <i className="ti ti-brand-linkedin" aria-hidden="true" /> LinkedIn
           </a>
@@ -150,9 +156,11 @@ export default function Hero({ theme: t }) {
       <motion.div
         variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.5, delay: 0.35 }}
         style={{
-          display: 'flex', gap: 0, marginTop: '48px',
+          display: 'grid',
+          gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+          gap: isMobile ? '16px' : '0',
+          marginTop: isMobile ? '32px' : '48px',
           borderTop: `0.5px solid ${t.border}`, paddingTop: '24px',
-          flexWrap: 'wrap',
         }}>
         {[
           { num: '4+', label: 'Years exp' },
@@ -161,11 +169,11 @@ export default function Hero({ theme: t }) {
           { num: '43+', label: 'Projects' },
         ].map((s, i) => (
           <div key={i} style={{
-            flex: '1', minWidth: '100px',
-            padding: '0 24px 0 0', marginRight: '24px',
-            borderRight: i < 3 ? `0.5px solid ${t.border}` : 'none',
+            padding: isMobile ? '0' : '0 24px 0 0',
+            marginRight: isMobile ? '0' : '24px',
+            borderRight: (!isMobile && i < 3) ? `0.5px solid ${t.border}` : 'none',
           }}>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: t.accent, fontFamily: 'monospace', marginBottom: '3px' }}>
+            <div style={{ fontSize: isMobile ? '18px' : '20px', fontWeight: 700, color: t.accent, fontFamily: 'monospace', marginBottom: '3px' }}>
               {s.num}
             </div>
             <div style={{ fontSize: '10px', color: t.textDim, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
