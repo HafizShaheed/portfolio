@@ -17,6 +17,10 @@ import ProjectDetail from './pages/ProjectDetail'
 import ScrollProgress from './components/ScrollProgress'
 import { PageSkeleton } from './components/Skeleton'
 import Availability from './sections/Availability'
+import ProjectRecommender from './sections/ProjectRecommender'
+
+
+
 
 function HomePage({ theme }) {
   return (
@@ -25,6 +29,7 @@ function HomePage({ theme }) {
       <About theme={theme} />
       <Experience theme={theme} />
       <Projects theme={theme} />
+      <ProjectRecommender theme={theme} />
       <Skills theme={theme} />
       <Achievements theme={theme} />
       <ResumeMatch theme={theme} />
