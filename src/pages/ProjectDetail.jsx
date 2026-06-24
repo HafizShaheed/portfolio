@@ -1,12 +1,10 @@
 // src/pages/ProjectDetail.jsx
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import { projects } from '../data/projects'
 import { useIsMobile } from '../hooks/useIsMobile'
 
-// Tags ke hisab se honest, specific highlights generate karta hai
-// Yeh fake metrics nahi hain - sirf tech stack se logically nikle hue facts hain
 function getHighlights(project) {
   const tags = project.tags || []
   const category = project.category
@@ -24,7 +22,6 @@ function getHighlights(project) {
   if (has('MongoDB')) highlights.push({ icon: 'ti-database', text: 'NoSQL data modeling for flexible, scalable schema design' })
   if (has('jQuery') || has('Bootstrap')) highlights.push({ icon: 'ti-layout', text: 'Interactive, responsive UI built with modern frontend practices' })
 
-  // Category-based fallback highlight
   const categoryHighlights = {
     erp: { icon: 'ti-building-skyscraper', text: 'Multi-module architecture handling complex, interconnected business workflows' },
     crm: { icon: 'ti-users', text: 'End-to-end lead and customer relationship tracking with status workflows' },
@@ -36,7 +33,6 @@ function getHighlights(project) {
     highlights.push(categoryHighlights[category])
   }
 
-  // Generic fallback to always have at least 3
   const generic = [
     { icon: 'ti-code', text: 'Clean, maintainable codebase following MVC architecture' },
     { icon: 'ti-devices', text: 'Responsive design tested across modern browsers and devices' },
@@ -54,12 +50,21 @@ function getHighlights(project) {
 export default function ProjectDetail({ theme: t }) {
   const isMobile = useIsMobile()
   const { slug } = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [slug])
 
   const project = projects.find(p => p.slug === slug)
+
+  // Back button - sessionStorage mein flag set karta hai
+  // Homepage mount hone par yeh flag check hoga aur scroll trigger hoga
+  const goBackToProjects = (e) => {
+    e.preventDefault()
+    sessionStorage.setItem('scrollToProjects', 'true')
+    navigate('/')
+  }
 
   if (!project) {
     return (
@@ -81,17 +86,18 @@ export default function ProjectDetail({ theme: t }) {
       transition={{ duration: 0.3 }}
       style={{ padding: isMobile ? '24px 20px' : '40px', maxWidth: '900px', margin: '0 auto' }}
     >
-      <Link
-        to="/"
+      <button
+        onClick={goBackToProjects}
         style={{
           display: 'inline-flex', alignItems: 'center', gap: '6px',
           color: t.textSub, fontSize: '13px', textDecoration: 'none',
-          marginBottom: isMobile ? '20px' : '28px',
+          marginBottom: isMobile ? '20px' : '28px', background: 'none',
+          border: 'none', cursor: 'pointer', padding: 0, fontFamily: 'inherit',
         }}
       >
         <i className="ti ti-arrow-left" aria-hidden="true" />
         Back to all projects
-      </Link>
+      </button>
 
       <div style={{
         display: 'inline-block', fontSize: '10px', fontFamily: 'monospace',
@@ -170,7 +176,6 @@ export default function ProjectDetail({ theme: t }) {
         </div>
       </div>
 
-      {/* Key Highlights - ab specific aur honest hain, generic tag-repeat nahi */}
       <div style={{ marginBottom: isMobile ? '24px' : '32px' }}>
         <h3 style={{ fontSize: '14px', fontWeight: 600, color: t.text, marginBottom: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: 'monospace' }}>
           Key Highlights
@@ -193,10 +198,18 @@ export default function ProjectDetail({ theme: t }) {
       </div>
 
       <div style={{ paddingTop: '24px', borderTop: `0.5px solid ${t.border}` }}>
-        <Link to="/" style={{ color: t.accent, fontSize: '13px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <button
+          onClick={goBackToProjects}
+          style={{
+            color: t.accent, fontSize: '13px', textDecoration: 'none',
+            display: 'flex', alignItems: 'center', gap: '6px',
+            background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+            fontFamily: 'inherit',
+          }}
+        >
           <i className="ti ti-arrow-left" aria-hidden="true" />
           Explore more projects
-        </Link>
+        </button>
       </div>
     </motion.div>
   )

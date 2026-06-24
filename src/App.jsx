@@ -12,17 +12,26 @@ import Contact from './sections/Contact'
 import ResumeMatch from './sections/ResumeMatch'
 import CodeReview from './sections/CodeReview'
 import HireMe from './sections/HireMe'
+import Availability from './sections/Availability'
+import ProjectRecommender from './sections/ProjectRecommender'
 import AIChatbot from './components/AIChatbot'
 import ProjectDetail from './pages/ProjectDetail'
 import ScrollProgress from './components/ScrollProgress'
 import { PageSkeleton } from './components/Skeleton'
-import Availability from './sections/Availability'
-import ProjectRecommender from './sections/ProjectRecommender'
-
-
-
 
 function HomePage({ theme }) {
+  // Jab homepage mount ho, check karo kya "back to projects" se aaye hain
+  useEffect(() => {
+    const shouldScroll = sessionStorage.getItem('scrollToProjects')
+    if (shouldScroll === 'true') {
+      sessionStorage.removeItem('scrollToProjects')
+      // Thoda wait karo taaki DOM fully ready ho jaye
+      setTimeout(() => {
+        document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
+      }, 150)
+    }
+  }, [])
+
   return (
     <>
       <Hero theme={theme} />
@@ -55,8 +64,6 @@ export default function App() {
     document.body.style.color = theme.text
   }, [themeName, theme])
 
-  // Initial page load - thoda delay se "appReady" true karo
-  // taaki fonts/theme settle ho jayein aur layout shift na ho
   useEffect(() => {
     const timer = setTimeout(() => setAppReady(true), 400)
     return () => clearTimeout(timer)
