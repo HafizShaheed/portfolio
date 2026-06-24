@@ -18,6 +18,9 @@ import AIChatbot from './components/AIChatbot'
 import ProjectDetail from './pages/ProjectDetail'
 import ScrollProgress from './components/ScrollProgress'
 import { PageSkeleton } from './components/Skeleton'
+import CursorFollower from './components/CursorFollower'
+
+
 
 function HomePage({ theme }) {
   // Jab homepage mount ho, check karo kya "back to projects" se aaye hain
@@ -45,6 +48,8 @@ function HomePage({ theme }) {
       <CodeReview theme={theme} />
       <HireMe theme={theme} />
       <Availability theme={theme} />
+<CursorFollower theme={theme} />
+
       <Contact theme={theme} />
     </>
   )
