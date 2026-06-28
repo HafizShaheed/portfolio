@@ -55,8 +55,8 @@ export default function CursorFollower({ theme: t }) {
         position: 'fixed',
         top: 0,
         left: 0,
-        width: '45px',
-        height: '45px',
+        width: '25px',
+        height: '25px',
         marginLeft: '-20px',
         marginTop: '-34px',
         borderRadius: '100%',       // gol shape
