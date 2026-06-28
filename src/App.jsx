@@ -48,7 +48,7 @@ function HomePage({ theme }) {
       <CodeReview theme={theme} />
       <HireMe theme={theme} />
       <Availability theme={theme} />
-<CursorFollower theme={theme} />
+      <CursorFollower theme={theme} />
 
       <Contact theme={theme} />
     </>

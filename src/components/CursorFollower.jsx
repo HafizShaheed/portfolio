@@ -2,46 +2,37 @@
 import { useState, useEffect, useRef } from 'react'
 
 export default function CursorFollower({ theme: t }) {
-  const dotRef = useRef(null)
-  const [isHovering, setIsHovering] = useState(false)
+  const avatarRef = useRef(null)
   const [isVisible, setIsVisible] = useState(false)
+  const [facingLeft, setFacingLeft] = useState(false)
   const pos = useRef({ x: 0, y: 0 })
   const target = useRef({ x: 0, y: 0 })
+  const lastX = useRef(0)
 
   useEffect(() => {
-    // Mobile/touch devices pe yeh effect skip karo - cursor hi nahi hota wahan
     const isTouchDevice = window.matchMedia('(hover: none)').matches
     if (isTouchDevice) return
 
     const handleMouseMove = (e) => {
+      const movingLeft = e.clientX < lastX.current
+      const movingRight = e.clientX > lastX.current
+      if (movingLeft) setFacingLeft(true)
+      if (movingRight) setFacingLeft(false)
+      lastX.current = e.clientX
+
       target.current = { x: e.clientX, y: e.clientY }
       if (!isVisible) setIsVisible(true)
     }
 
-    // Hover detect karo - links/buttons pe bada ho jaye
-    const handleMouseOver = (e) => {
-      if (e.target.closest('a, button, [role="button"]')) {
-        setIsHovering(true)
-      }
-    }
-    const handleMouseOut = (e) => {
-      if (e.target.closest('a, button, [role="button"]')) {
-        setIsHovering(false)
-      }
-    }
-
     window.addEventListener('mousemove', handleMouseMove)
-    window.addEventListener('mouseover', handleMouseOver)
-    window.addEventListener('mouseout', handleMouseOut)
 
-    // Smooth follow animation - lerp (linear interpolation) se delay create hota hai
     let animationFrame
     const animate = () => {
-      pos.current.x += (target.current.x - pos.current.x) * 0.15
-      pos.current.y += (target.current.y - pos.current.y) * 0.15
+      pos.current.x += (target.current.x - pos.current.x) * 0.1
+      pos.current.y += (target.current.y - pos.current.y) * 0.1
 
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px)`
+      if (avatarRef.current) {
+        avatarRef.current.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px)`
       }
       animationFrame = requestAnimationFrame(animate)
     }
@@ -49,38 +40,50 @@ export default function CursorFollower({ theme: t }) {
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('mouseover', handleMouseOver)
-      window.removeEventListener('mouseout', handleMouseOut)
       cancelAnimationFrame(animationFrame)
     }
   }, [isVisible])
 
-  // Touch devices pe kuch render hi mat karo
   if (typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches) {
     return null
   }
 
   return (
     <div
-      ref={dotRef}
+      ref={avatarRef}
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
-        width: isHovering ? '40px' : '16px',
-        height: isHovering ? '40px' : '16px',
-        marginLeft: isHovering ? '-20px' : '-8px',
-        marginTop: isHovering ? '-20px' : '-8px',
-        borderRadius: '50%',
-        background: isHovering ? 'transparent' : t.accent,
-        border: isHovering ? `1.5px solid ${t.accent}` : 'none',
-        boxShadow: isHovering ? 'none' : `0 0 12px ${t.accent}`,
+        width: '45px',
+        height: '45px',
+        marginLeft: '-20px',
+        marginTop: '-34px',
+        borderRadius: '100%',       // gol shape
+        overflow: 'hidden',         // andar ki cheez circle se bahar nahi dikhegi
+        border: `2px solid ${t.accent}`,
         pointerEvents: 'none',
         zIndex: 9999,
-        opacity: isVisible ? 0.7 : 0,
-        transition: 'width 0.2s, height 0.2s, margin 0.2s, background 0.2s, border 0.2s, opacity 0.3s',
+        opacity: isVisible ? 0.95 : 0,
+        transition: 'opacity 0.3s ease',
         willChange: 'transform',
+        boxShadow: `0 4px 16px rgba(0,0,0,0.35), 0 0 0 3px ${t.accentFade}`,
+        background: t.bg,
       }}
-    />
+    >
+      <img
+        src="/running-avatar.png"
+        alt=""
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',     // circle ko poora fill karega
+          objectPosition: 'top',  // chehra upar rakhega, taang neeche crop ho jayengi
+          display: 'block',
+          transform: facingLeft ? 'scaleX(-1)' : 'scaleX(1)',
+          transition: 'transform 0.15s ease',
+        }}
+      />
+    </div>
   )
 }
