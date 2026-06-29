@@ -57,7 +57,7 @@ export default function About({ theme: t }) {
             <GithubStats theme={t} />
           </div>
           <CurrentlyWorking theme={t} />
-          <VisitorStats theme={t} />
+          {/* <VisitorStats theme={t} /> */}
         </motion.div>
 
         {/* Right - Skills */}

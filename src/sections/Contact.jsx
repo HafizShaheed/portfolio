@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useIsMobile } from '../hooks/useIsMobile'
+import VisitorStats from '../components/VisitorStats'
 
 const contacts = [
   { label: 'WhatsApp', value: '+92 341 2427229', sub: 'Direct message — fastest response', icon: 'ti-brand-whatsapp', href: 'https://wa.me/923412427229', iconColor: '#25D366', iconBg: 'rgba(37,211,102,0.1)' },
@@ -103,8 +104,13 @@ export default function Contact({ theme: t }) {
         </div>
         <div style={{ fontSize: '11px', color: t.textDim }}>© 2025 Hafiz Shaheed</div>
       </div>
+      {/* 👇 YEH NAYA ADD KARO - Visitor stats footer ke neeche */}
+      <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'center' }}>
+        <VisitorStats theme={t} />
+      </div>
 
       <style>{`@keyframes pulse { 50% { opacity: 0.3; } }`}</style>
+      
     </section>
   )
 }
