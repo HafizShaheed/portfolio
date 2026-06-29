@@ -19,6 +19,11 @@ import ProjectDetail from './pages/ProjectDetail'
 import ScrollProgress from './components/ScrollProgress'
 import { PageSkeleton } from './components/Skeleton'
 import CursorFollower from './components/CursorFollower'
+import SubscriptionPlans from './sections/SubscriptionPlans'
+import TawkChat from './components/TawkChat'
+
+
+
 
 
 
@@ -47,7 +52,10 @@ function HomePage({ theme }) {
       <ResumeMatch theme={theme} />
       <CodeReview theme={theme} />
       <HireMe theme={theme} />
+      <SubscriptionPlans theme={theme} />
       <Availability theme={theme} />
+
+
       <CursorFollower theme={theme} />
 
       <Contact theme={theme} />
@@ -100,6 +108,7 @@ export default function App() {
             <Route path="/projects/:slug" element={<ProjectDetail theme={theme} />} />
           </Routes>
         )}
+        {/* <TawkChat /> */}
 
         <AIChatbot theme={theme} />
       </div>

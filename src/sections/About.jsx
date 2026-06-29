@@ -2,6 +2,10 @@ import { motion } from 'framer-motion'
 import GithubStats from '../components/GithubStats'
 import { useIsMobile } from '../hooks/useIsMobile'
 import CurrentlyWorking from '../components/CurrentlyWorking'
+import VisitorStats from '../components/VisitorStats'
+
+
+
 
 
 
@@ -53,6 +57,7 @@ export default function About({ theme: t }) {
             <GithubStats theme={t} />
           </div>
           <CurrentlyWorking theme={t} />
+          <VisitorStats theme={t} />
         </motion.div>
 
         {/* Right - Skills */}
