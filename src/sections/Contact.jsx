@@ -98,6 +98,9 @@ export default function Contact({ theme: t }) {
       </div>
 
       {/* Footer */}
+       <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'center' }}>
+        <VisitorStats theme={t} />
+      </div>
       <div style={{ borderTop: `0.5px solid ${t.border}`, marginTop: isMobile ? '32px' : '48px', paddingTop: '20px', display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', gap: '8px' }}>
         <div style={{ fontFamily: 'monospace', fontSize: '12px', color: t.textDim }}>
           &lt;hafiz.dev /&gt; — Built with <span style={{ color: t.accent }}>React.js</span> + Tailwind
@@ -105,9 +108,7 @@ export default function Contact({ theme: t }) {
         <div style={{ fontSize: '11px', color: t.textDim }}>© 2025 Hafiz Shaheed</div>
       </div>
       {/* 👇 YEH NAYA ADD KARO - Visitor stats footer ke neeche */}
-      <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'center' }}>
-        <VisitorStats theme={t} />
-      </div>
+     
 
       <style>{`@keyframes pulse { 50% { opacity: 0.3; } }`}</style>
       
