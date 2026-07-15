@@ -1,116 +1,245 @@
+
+
+
+// src/sections/Contact.jsx
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useIsMobile } from '../hooks/useIsMobile'
 import VisitorStats from '../components/VisitorStats'
 
 const contacts = [
-  { label: 'WhatsApp', value: '+92 341 2427229', sub: 'Direct message — fastest response', icon: 'ti-brand-whatsapp', href: 'https://wa.me/923412427229', iconColor: '#25D366', iconBg: 'rgba(37,211,102,0.1)' },
-  { label: 'LinkedIn',  value: 'hafiz-shaheed',   sub: 'Connect professionally', icon: 'ti-brand-linkedin', href: 'https://linkedin.com/in/hafiz-shaheed-b17796141', iconColor: '#0A66C2', iconBg: 'rgba(10,102,194,0.12)' },
-  { label: 'GitHub',    value: 'HafizShaheed',     sub: 'Check out my code', icon: 'ti-brand-github', href: 'https://github.com/HafizShaheed' },
-  { label: 'Alt No.',   value: '+92 307 2241918',  sub: 'WhatsApp / Call', icon: 'ti-phone', href: 'https://wa.me/923072241918' },
+  { label: 'Email', value: 'shaheedkhan336@gmail.com', icon: 'ti-mail', href: 'mailto:shaheedkhan336@gmail.com', color: '#6366f1' },
+  { label: 'Phone', value: '+92 307 2241918', icon: 'ti-phone', href: 'https://wa.me/923072241918', color: '#22c55e' },
+  { label: 'Phone', value: '+92 341 2427229', icon: 'ti-phone', href: 'https://wa.me/923412427229', color: '#22c55e' },
+  { label: 'Location', value: 'Karachi, Pakistan', icon: 'ti-map-pin', href: '#', color: '#f59e0b' },
+]
+
+const socials = [
+  { icon: 'ti-brand-linkedin', href: 'https://linkedin.com/in/hafiz-shaheed-b17796141', label: 'LinkedIn' },
+  { icon: 'ti-brand-github', href: 'https://github.com/HafizShaheed', label: 'GitHub' },
+  { icon: 'ti-mail', href: 'mailto:shaheedkhan336@gmail.com', label: 'Email' },
+  { icon: 'ti-brand-whatsapp', href: 'https://wa.me/923412427229', label: 'WhatsApp' },
 ]
 
 export default function Contact({ theme: t }) {
   const isMobile = useIsMobile()
-  const [copied, setCopied] = useState(false)
+  const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [status, setStatus] = useState('idle')
 
-  const copyEmail = () => {
-    navigator.clipboard.writeText('shaheedkhan336@gmail.com').catch(() => {})
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  const cardStyle = {
-    background: t.card, border: `0.5px solid ${t.cardBorder}`,
-    borderRadius: '12px', padding: isMobile ? '16px' : '18px 20px',
-    display: 'flex', alignItems: 'center', gap: '14px',
-    textDecoration: 'none', color: 'inherit',
-    transition: 'border-color 0.25s, transform 0.2s',
-    cursor: 'pointer',
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!form.name || !form.email || !form.message) return
+    setStatus('sending')
+    try {
+      const res = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, projectType: 'Contact Form', budget: 'N/A' }),
+      })
+      if (res.ok) {
+        setStatus('success')
+        setForm({ name: '', email: '', message: '' })
+      } else setStatus('error')
+    } catch { setStatus('error') }
   }
 
   return (
-    <section id="contact" style={{ padding: isMobile ? '40px 20px' : '56px 40px', borderTop: `0.5px solid ${t.border}` }}>
-      <div style={{ fontFamily: 'monospace', fontSize: '11px', color: t.accent, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <span style={{ width: '22px', height: '0.5px', background: t.accent, display: 'inline-block' }} />
-        — Contact
+    <section id="contact" style={{
+      padding: isMobile ? '64px 20px' : '100px 40px',
+      maxWidth: '1280px', margin: '0 auto',
+      borderTop: `0.5px solid ${t.border}`,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+        <span style={{ fontSize: '11px', color: t.accent, letterSpacing: '0.15em', textTransform: 'uppercase', fontFamily: 'monospace', fontWeight: 600 }}>
+          LET'S WORK TOGETHER
+        </span>
+        <div style={{ flex: 1, height: '0.5px', background: t.border }} />
       </div>
-      <h2 style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: 700, color: t.text, letterSpacing: '-0.02em', marginBottom: '8px' }}>
-        Let's Work Together
+
+      <h2 style={{
+        fontSize: isMobile ? '28px' : '40px', fontWeight: 800,
+        letterSpacing: '-0.03em', marginBottom: '12px',
+      }}>
+        Have a project in mind?
       </h2>
-      <p style={{ fontSize: '13px', color: t.textSub, marginBottom: isMobile ? '24px' : '28px', maxWidth: isMobile ? '100%' : '480px', lineHeight: 1.7 }}>
-        Open to new opportunities — full-time, remote, or freelance. Reach out directly on any platform.
+      <p style={{ fontSize: '15px', color: t.textSub, marginBottom: '48px', maxWidth: '500px', lineHeight: 1.7 }}>
+        I'm currently available for freelance or full-time opportunities. Let's build something amazing together.
       </p>
 
-      {/* Available badge */}
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: isMobile ? '10px' : '11px', fontFamily: 'monospace', color: t.green, background: t.greenFade, border: `0.5px solid ${t.greenBorder}`, padding: '5px 14px', borderRadius: '20px', marginBottom: isMobile ? '24px' : '32px' }}>
-        <span style={{ width: '6px', height: '6px', background: t.green, borderRadius: '50%', display: 'inline-block', animation: 'pulse 2s infinite' }} />
-        {isMobile ? 'Available Now' : 'Immediately Available — Karachi / Remote'}
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '14px', maxWidth: isMobile ? '100%' : '680px' }}>
-        {contacts.map((c, i) => (
-          <motion.a key={i} href={c.href} target="_blank" rel="noreferrer"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, delay: i * 0.08 }}
-            viewport={{ once: true }}
-            style={cardStyle}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = t.hoverBorder; e.currentTarget.style.transform = 'translateY(-2px)' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = t.cardBorder; e.currentTarget.style.transform = 'translateY(0)' }}
-          >
-            <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: c.iconBg || t.accentFade, display: 'flex', alignItems: 'center', justifyContent: 'center', color: c.iconColor || t.accent, fontSize: '20px', flexShrink: 0 }}>
-              <i className={`ti ${c.icon}`} aria-hidden="true" />
-            </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: '11px', color: t.textDim, textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'monospace', marginBottom: '3px' }}>{c.label}</div>
-              <div style={{ fontSize: '13px', color: t.text, fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.value}</div>
-              <div style={{ fontSize: '11px', color: t.textSub, marginTop: '2px' }}>{c.sub}</div>
-            </div>
-            <i className="ti ti-arrow-right" style={{ color: t.textDim, fontSize: '15px', flexShrink: 0 }} aria-hidden="true" />
-          </motion.a>
-        ))}
-
-        {/* Email - full width */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, delay: 0.32 }}
-          viewport={{ once: true }}
-          onClick={copyEmail}
-          style={{ ...cardStyle, gridColumn: isMobile ? 'auto' : '1 / -1' }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = t.hoverBorder; e.currentTarget.style.transform = 'translateY(-2px)' }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = t.cardBorder; e.currentTarget.style.transform = 'translateY(0)' }}
-        >
-          <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: t.accentFade, display: 'flex', alignItems: 'center', justifyContent: 'center', color: t.accent, fontSize: '20px', flexShrink: 0 }}>
-            <i className="ti ti-mail" aria-hidden="true" />
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+        gap: '48px',
+      }}>
+        {/* Left — Contact info */}
+        <div>
+          {/* Contact items */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '36px' }}>
+            {contacts.map((c, i) => (
+              <motion.a
+                key={i}
+                href={c.href}
+                target={c.href.startsWith('http') ? '_blank' : undefined}
+                rel="noreferrer"
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                viewport={{ once: true }}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '14px',
+                  textDecoration: 'none', color: 'inherit',
+                }}
+              >
+                <div style={{
+                  width: '44px', height: '44px', borderRadius: '10px',
+                  background: `${c.color}14`, border: `0.5px solid ${c.color}30`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: c.color, fontSize: '18px', flexShrink: 0,
+                }}>
+                  <i className={`ti ${c.icon}`} />
+                </div>
+                <div>
+                  <div style={{ fontSize: '11px', color: t.textDim, textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'monospace', marginBottom: '2px' }}>
+                    {c.label}
+                  </div>
+                  <div style={{ fontSize: '14px', color: '#cbd5e1', fontWeight: 500 }}>{c.value}</div>
+                </div>
+              </motion.a>
+            ))}
           </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: '11px', color: t.textDim, textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'monospace', marginBottom: '3px' }}>Email</div>
-            <div style={{ fontSize: isMobile ? '12px' : '13px', color: t.text, fontWeight: 500, display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', wordBreak: 'break-all' }}>
-              shaheedkhan336@gmail.com
-              {copied && <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: t.accentFade, color: t.accent, fontFamily: 'monospace' }}>copied!</span>}
+
+          {/* Socials */}
+          <div>
+            <div style={{ fontSize: '11px', color: t.textDim, fontFamily: 'monospace', letterSpacing: '0.1em', marginBottom: '14px' }}>
+              CONNECT WITH ME
             </div>
-            <div style={{ fontSize: '11px', color: t.textSub, marginTop: '2px' }}>Click to copy address</div>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              {socials.map((s, i) => (
+                <a key={i} href={s.href} target="_blank" rel="noreferrer"
+                  title={s.label}
+                  style={{
+                    width: '42px', height: '42px', borderRadius: '10px',
+                    background: t.card, border: `0.5px solid ${t.cardBorder}`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: t.textDim, fontSize: '18px', textDecoration: 'none',
+                    transition: 'all 0.2s',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.borderColor = t.accent
+                    e.currentTarget.style.color = t.accent
+                    e.currentTarget.style.transform = 'translateY(-2px)'
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.borderColor = t.cardBorder
+                    e.currentTarget.style.color = t.textDim
+                    e.currentTarget.style.transform = 'translateY(0)'
+                  }}>
+                  <i className={`ti ${s.icon}`} />
+                </a>
+              ))}
+            </div>
           </div>
-          <i className="ti ti-copy" style={{ color: t.textDim, fontSize: '15px', flexShrink: 0 }} aria-hidden="true" />
-        </motion.div>
+        </div>
+
+        {/* Right — Form */}
+        <div>
+          {status === 'success' ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              style={{
+                background: t.card, border: `0.5px solid ${t.cardBorder}`,
+                borderRadius: '14px', padding: '40px', textAlign: 'center',
+              }}
+            >
+              <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
+              <div style={{ fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>Message Sent!</div>
+              <div style={{ fontSize: '14px', color: t.textSub, marginBottom: '20px' }}>I'll get back to you within 24 hours.</div>
+              <button onClick={() => setStatus('idle')} style={{
+                background: t.accentFade, color: t.accent, border: `0.5px solid ${t.tagBorder}`,
+                padding: '10px 24px', borderRadius: '8px', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit',
+              }}>Send Another</button>
+            </motion.div>
+          ) : (
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <input
+                value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
+                placeholder="Your Name" required
+                style={inputStyle(t)}
+              />
+              <input
+                type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
+                placeholder="Your Email" required
+                style={inputStyle(t)}
+              />
+              <textarea
+                value={form.message} onChange={e => setForm({ ...form, message: e.target.value })}
+                placeholder="Your Message" required rows={5}
+                style={{ ...inputStyle(t), resize: 'vertical', fontFamily: 'inherit' }}
+              />
+              <button type="submit" disabled={status === 'sending'} style={{
+                background: t.accent, color: '#fff', border: 'none',
+                padding: '13px 28px', borderRadius: '8px', fontSize: '14px',
+                fontWeight: 600, cursor: 'pointer', display: 'flex',
+                alignItems: 'center', justifyContent: 'center', gap: '8px',
+                opacity: status === 'sending' ? 0.6 : 1, transition: 'all 0.2s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = t.btnHover}
+              onMouseLeave={e => e.currentTarget.style.background = t.accent}>
+                {status === 'sending' ? 'Sending...' : 'Send Message'}
+                <i className="ti ti-send" />
+              </button>
+              {status === 'error' && (
+                <p style={{ color: '#f87171', fontSize: '12px' }}>Something went wrong. Please try again.</p>
+              )}
+            </form>
+          )}
+        </div>
       </div>
 
       {/* Footer */}
-      <div style={{ borderTop: `0.5px solid ${t.border}`, marginTop: isMobile ? '32px' : '48px', paddingTop: '20px', display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', gap: '8px' }}>
-        <div style={{ fontFamily: 'monospace', fontSize: '12px', color: t.textDim }}>
-          &lt;hafiz.dev /&gt; — Built with <span style={{ color: t.accent }}>React.js</span> + Tailwind
+      <div style={{
+        marginTop: '64px', paddingTop: '28px', borderTop: `0.5px solid ${t.border}`,
+        display: 'flex', flexDirection: isMobile ? 'column' : 'row',
+        justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center',
+        gap: '16px',
+      }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+            <div style={{
+              width: '28px', height: '28px', borderRadius: '6px',
+              background: t.accent, display: 'flex', alignItems: 'center',
+              justifyContent: 'center', fontWeight: 800, fontSize: '11px', color: '#fff',
+            }}>HS</div>
+            <span style={{ fontSize: '13px', fontWeight: 700, color: '#fff' }}>Hafiz Shaheed</span>
+          </div>
+          <div style={{ fontSize: '12px', color: t.textDim }}>
+            Full Stack Developer · Crafting Scalable Systems. Delivering Real Impact.
+          </div>
+          <div style={{ fontSize: '11px', color: '#1a1a2e', marginTop: '4px' }}>
+            © 2025 Hafiz Shaheed Ul Islam. All rights reserved.
+          </div>
         </div>
-        <div style={{ fontSize: '11px', color: t.textDim }}>© 2025 Hafiz Shaheed</div>
-      </div>
-      {/* 👇 YEH NAYA ADD KARO - Visitor stats footer ke neeche */}
-      <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'center' }}>
-        <VisitorStats theme={t} />
+
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'flex-start' : 'flex-end', gap: '8px' }}>
+          <VisitorStats theme={t} />
+          <div style={{ fontSize: '11px', color: t.textDim, display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '6px', height: '6px', background: t.green, borderRadius: '50%', animation: 'pulse 2s infinite' }} />
+            Available for new opportunities
+          </div>
+        </div>
       </div>
 
-      <style>{`@keyframes pulse { 50% { opacity: 0.3; } }`}</style>
-      
+      <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}`}</style>
     </section>
   )
+}
+
+function inputStyle(t) {
+  return {
+    padding: '12px 16px', borderRadius: '8px',
+    border: `0.5px solid ${t.cardBorder}`, background: t.card,
+    color: '#fff', fontSize: '14px', outline: 'none', width: '100%',
+    transition: 'border-color 0.2s', fontFamily: 'inherit',
+  }
 }

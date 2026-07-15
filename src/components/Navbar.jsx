@@ -1,6 +1,5 @@
-import { useState } from 'react'
-import ThemeSwitcher from './ThemeSwitcher'
-import CommandPalette from './CommandPalette'
+// src/components/Navbar.jsx
+import { useState, useEffect } from 'react'
 import { useIsMobile } from '../hooks/useIsMobile'
 
 const links = [
@@ -8,17 +7,20 @@ const links = [
   { label: 'Experience', id: 'experience' },
   { label: 'Projects', id: 'projects' },
   { label: 'Skills', id: 'skills' },
-  { label: 'Match Score', id: 'resume-match' },
-  { label: 'Code Review', id: 'code-review' },
+  { label: 'Achievements', id: 'achievements' },
   { label: 'Contact', id: 'contact' },
-  { label: 'Book a Call', id: 'availability' },
-  { label: 'Hire Me', id: 'hire-me' },
 ]
 
-export default function Navbar({ theme, onThemeChange }) {
-  const [menuOpen, setMenuOpen] = useState(false)
+export default function Navbar({ theme: t }) {
   const isMobile = useIsMobile()
-  const t = theme
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -27,132 +29,102 @@ export default function Navbar({ theme, onThemeChange }) {
 
   return (
     <nav style={{
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: isMobile ? '14px 16px' : '16px 40px',
-      borderBottom: `0.5px solid ${t.border}`,
-      position: 'sticky',
-      top: 0,
-      zIndex: 100,
-      background: t.bg,
-      backdropFilter: 'blur(12px)',
+      position: 'sticky', top: 0, zIndex: 200,
+      background: scrolled ? 'rgba(10,10,15,0.95)' : 'transparent',
+      backdropFilter: scrolled ? 'blur(20px)' : 'none',
+      borderBottom: scrolled ? '0.5px solid #1a1a2e' : '0.5px solid transparent',
+      transition: 'all 0.3s ease',
     }}>
-      {/* Logo */}
       <div style={{
-        fontFamily: 'monospace',
-        fontSize: isMobile ? '13px' : '15px',
-        color: t.accent,
-        letterSpacing: '0.04em',
-        fontWeight: 500,
+        maxWidth: '1280px', margin: '0 auto',
+        padding: isMobile ? '14px 20px' : '16px 48px',
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       }}>
-        &lt;hafiz.dev /&gt;
-      </div>
+        {/* Logo */}
+        <div onClick={() => scrollTo('hero')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{
+            width: '36px', height: '36px', borderRadius: '10px',
+            background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '14px', fontWeight: 800, color: '#fff',
+          }}>HS</div>
+          {!isMobile && (
+            <div>
+              <div style={{ fontSize: '14px', fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>Hafiz Shaheed</div>
+              <div style={{ fontSize: '10px', color: '#475569', letterSpacing: '0.05em' }}>Full Stack Developer</div>
+            </div>
+          )}
+        </div>
 
-      {/* Desktop links - mobile pe hide */}
-      {!isMobile && (
-        <ul style={{ display: 'flex', gap: '20px', listStyle: 'none', margin: 0, padding: 0 }}>
-          {links.map((l) => (
-            <li key={l.id}>
-              <button
-                onClick={() => scrollTo(l.id)}
-                style={{
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  fontSize: '13px', color: t.textSub, letterSpacing: '0.02em',
-                  fontFamily: 'inherit', transition: 'color 0.2s', padding: '4px 0',
-                  whiteSpace: 'nowrap',
-                }}
-                onMouseEnter={e => e.target.style.color = t.accent}
-                onMouseLeave={e => e.target.style.color = t.textSub}
-              >
-                {l.label}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {/* Right side */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '8px' : '12px' }}>
-        {!isMobile && <CommandPalette theme={t} />}
-        <ThemeSwitcher current={t.name} onChange={onThemeChange} />
-
+        {/* Desktop links */}
         {!isMobile && (
-          <a
-            href="/Hafiz_Shaheed_Resume.pdf"
-            download
-            style={{
-              background: 'transparent',
-              border: `0.5px solid ${t.accentFade}`,
-              color: t.accent,
-              padding: '7px 18px',
-              borderRadius: '6px',
-              fontSize: '12px',
-              fontFamily: 'inherit',
-              cursor: 'pointer',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '5px',
-              transition: 'background 0.2s',
-              whiteSpace: 'nowrap',
-            }}
-            onMouseEnter={e => e.currentTarget.style.background = t.accentFade}
-            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-          >
-            <i className="ti ti-download" aria-hidden="true" />
-            Resume
-          </a>
+          <ul style={{ display: 'flex', gap: '4px', listStyle: 'none' }}>
+            {links.map(l => (
+              <li key={l.id}>
+                <button onClick={() => scrollTo(l.id)} style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  fontSize: '13px', color: '#64748b', fontFamily: 'inherit',
+                  fontWeight: 500, padding: '7px 14px', borderRadius: '8px',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={e => { e.target.style.color = '#fff'; e.target.style.background = '#1a1a2e' }}
+                onMouseLeave={e => { e.target.style.color = '#64748b'; e.target.style.background = 'none' }}
+                >{l.label}</button>
+              </li>
+            ))}
+          </ul>
         )}
 
-        {/* Hamburger - sirf mobile pe */}
-        {isMobile && (
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            style={{
-              background: 'none', border: 'none', cursor: 'pointer',
-              color: t.text, fontSize: '22px', padding: '4px',
-              display: 'flex', alignItems: 'center',
+        {/* Right */}
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          {!isMobile && (
+            <a href="/Hafiz_Shaheed_Full_Stack_Developer_Resume .pdf" download style={{
+              display: 'flex', alignItems: 'center', gap: '6px',
+              background: '#12121a', border: '0.5px solid #1e1e30',
+              color: '#94a3b8', padding: '8px 18px', borderRadius: '8px',
+              fontSize: '13px', fontWeight: 500, textDecoration: 'none',
+              transition: 'all 0.2s',
             }}
-          >
-            <i className={`ti ${menuOpen ? 'ti-x' : 'ti-menu-2'}`} aria-hidden="true" />
-          </button>
-        )}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = '#6366f1'; e.currentTarget.style.color = '#fff' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = '#1e1e30'; e.currentTarget.style.color = '#94a3b8' }}
+            >
+              <i className="ti ti-download" style={{ fontSize: '14px' }} />
+              Download Resume
+            </a>
+          )}
+
+          {isMobile && (
+            <button onClick={() => setMenuOpen(!menuOpen)} style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              color: '#fff', fontSize: '22px', padding: '4px',
+            }}>
+              <i className={`ti ${menuOpen ? 'ti-x' : 'ti-menu-2'}`} />
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Mobile dropdown menu */}
+      {/* Mobile menu */}
       {isMobile && menuOpen && (
         <div style={{
-          position: 'absolute', top: '100%', left: 0, right: 0,
-          background: t.bg, borderBottom: `0.5px solid ${t.border}`,
-          padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '4px',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+          background: '#0a0a0f', borderTop: '0.5px solid #1a1a2e',
+          padding: '12px 20px 20px',
         }}>
-          {links.map((l) => (
-            <button
-              key={l.id}
-              onClick={() => scrollTo(l.id)}
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: '14px', color: t.textSub, textAlign: 'left',
-                padding: '10px 8px', borderRadius: '6px', fontFamily: 'inherit',
-              }}
-            >
-              {l.label}
-            </button>
+          {links.map(l => (
+            <button key={l.id} onClick={() => scrollTo(l.id)} style={{
+              display: 'block', width: '100%', background: 'none', border: 'none',
+              cursor: 'pointer', fontSize: '15px', color: '#94a3b8', textAlign: 'left',
+              padding: '12px 8px', fontFamily: 'inherit', fontWeight: 500,
+              borderBottom: '0.5px solid #1a1a2e',
+            }}>{l.label}</button>
           ))}
-          <a
-            href="/Hafiz_Shaheed_Resume.pdf"
-            download
-            style={{
-              marginTop: '6px', background: t.accentFade, color: t.accent,
-              padding: '10px', borderRadius: '6px', fontSize: '13px',
-              textDecoration: 'none', textAlign: 'center', display: 'flex',
-              alignItems: 'center', justifyContent: 'center', gap: '6px',
-            }}
-          >
-            <i className="ti ti-download" aria-hidden="true" />
-            Download Resume
+          <a href="/Hafiz_Shaheed_Full_Stack_Developer_Resume .pdf" download style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            marginTop: '12px', background: '#6366f1', color: '#fff',
+            padding: '12px', borderRadius: '8px', fontSize: '14px',
+            textDecoration: 'none', fontWeight: 600,
+          }}>
+            <i className="ti ti-download" /> Download Resume
           </a>
         </div>
       )}

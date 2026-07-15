@@ -1,8 +1,26 @@
+
+// src/sections/Projects.jsx
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { projects, filters } from '../data/projects'
 import { useIsMobile } from '../hooks/useIsMobile'
+import { projects, filters } from '../data/projects'
+
+// const techColors = {
+//   'Laravel':    { color: '#FF2D20', icon: 'ti-brand-laravel' },
+//   'PHP':        { color: '#777BB4', icon: 'ti-brand-php' },
+//   'MySQL':      { color: '#00758F', icon: 'ti-database' },
+//   'React.js':   { color: '#61DAFB', icon: 'ti-brand-react' },
+//   'Node.js':    { color: '#68A063', icon: 'ti-brand-nodejs' },
+//   'MongoDB':    { color: '#47A248', icon: 'ti-brand-mongodb' },
+//   'AWS':        { color: '#FF9900', icon: 'ti-brand-aws' },
+//   'Next.js':    { color: '#EBEBEB', icon: 'ti-brand-nextjs' },
+//   'Docker':     { color: '#2496ED', icon: 'ti-brand-docker' },
+//   'Stripe':     { color: '#635BFF', icon: 'ti-brand-stripe' },
+//   'GraphQL':    { color: '#E1007A', icon: 'ti-brand-graphql' },
+//   'JWT':        { color: '#D63AFF', icon: 'ti-lock' },
+//   'Socket.io':  { color: '#CCCCCC', icon: 'ti-brand-socket-io' },
+// }
 
 const techColors = {
   'Laravel':     { bg: 'rgba(255,45,32,0.12)',   color: '#FF2D20', icon: 'ti-brand-laravel' },
@@ -45,20 +63,19 @@ const techColors = {
   'LMS':         { bg: 'rgba(59,130,246,0.10)',   color: '#3B82F6', icon: 'ti-school' },
 }
 
-function StackBadge({ label }) {
-  const tech = techColors[label] || { bg: 'rgba(100,100,100,0.10)', color: '#888888', icon: 'ti-code' }
+function TechBadge({ label }) {
+  const tech = techColors[label] || { color: '#64748b', icon: 'ti-code' }
   return (
-    <div title={label} style={{
-      display: 'flex', alignItems: 'center', gap: '4px',
-      padding: '3px 9px', borderRadius: '5px',
-      background: tech.bg, color: tech.color,
-      fontSize: '11px', fontFamily: 'monospace',
-      border: `0.5px solid ${tech.color}40`,
-      whiteSpace: 'nowrap', fontWeight: 500,
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: '4px',
+      fontSize: '10px', fontFamily: 'monospace', padding: '3px 8px',
+      borderRadius: '4px', background: `${tech.color}12`,
+      border: `0.5px solid ${tech.color}30`, color: tech.color,
+      fontWeight: 500, whiteSpace: 'nowrap',
     }}>
-      <i className={`ti ${tech.icon}`} style={{ fontSize: '13px' }} aria-hidden="true" />
+      <i className={`ti ${tech.icon}`} style={{ fontSize: '11px' }} />
       {label}
-    </div>
+    </span>
   )
 }
 
@@ -71,119 +88,136 @@ export default function Projects({ theme: t }) {
     ? projects
     : projects.filter(p => p.category === active.toLowerCase())
 
-  const openProject = (slug) => {
-    navigate(`/projects/${slug}`)
-  }
-
   return (
-    <section id="projects" style={{ padding: isMobile ? '40px 20px' : '56px 40px', borderTop: `0.5px solid ${t.border}` }}>
-      <div style={{ fontFamily: 'monospace', fontSize: '11px', color: t.accent, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <span style={{ width: '22px', height: '0.5px', background: t.accent, display: 'inline-block' }} />
-        — Projects
+    <section id="projects" style={{
+      padding: isMobile ? '64px 20px' : '100px 40px',
+      maxWidth: '1280px', margin: '0 auto',
+      borderTop: `0.5px solid ${t.border}`,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+        <span style={{ fontSize: '11px', color: t.accent, letterSpacing: '0.15em', textTransform: 'uppercase', fontFamily: 'monospace', fontWeight: 600 }}>
+          FEATURED PROJECTS
+        </span>
+        <div style={{ flex: 1, height: '0.5px', background: t.border }} />
       </div>
-      <h2 style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: 700, color: t.text, letterSpacing: '-0.02em', marginBottom: '6px' }}>
-        Things I've Built
-      </h2>
-      <p style={{ fontSize: '13px', color: t.textSub, marginBottom: isMobile ? '20px' : '24px' }}>
-        Enterprise systems, SaaS platforms, and full-stack products — click any card for details
-      </p>
 
-      {/* Filters - scrollable on mobile */}
-      <div style={{
-        display: 'flex', gap: '8px', marginBottom: isMobile ? '20px' : '28px',
-        flexWrap: isMobile ? 'nowrap' : 'wrap',
-        overflowX: isMobile ? 'auto' : 'visible',
-        paddingBottom: isMobile ? '4px' : 0,
-        WebkitOverflowScrolling: 'touch',
-      }}>
-        {filters.map((f) => (
-          <button key={f} onClick={() => setActive(f)}
-            style={{
-              fontSize: '11px', fontFamily: 'monospace', padding: '5px 14px',
-              borderRadius: '5px', cursor: 'pointer', letterSpacing: '0.04em',
-              border: `0.5px solid ${active === f ? t.accent : t.cardBorder}`,
-              color: active === f ? t.accent : t.textSub,
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '36px', flexWrap: 'wrap', gap: '16px' }}>
+        <h2 style={{ fontSize: isMobile ? '28px' : '36px', fontWeight: 800, letterSpacing: '-0.03em' }}>
+          Some of my <span style={{ color: t.accent }}>recent work</span>
+        </h2>
+
+        {/* Filters */}
+        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+          {filters.map(f => (
+            <button key={f} onClick={() => setActive(f)} style={{
+              fontSize: '12px', fontFamily: 'monospace', padding: '6px 14px',
+              borderRadius: '6px', cursor: 'pointer',
+              border: `0.5px solid ${active === f ? t.accent : t.border}`,
+              color: active === f ? t.accent : t.textDim,
               background: active === f ? t.accentFade : 'transparent',
-              transition: 'all 0.2s', flexShrink: 0,
-            }}>
-            {f}
-          </button>
-        ))}
+              fontWeight: active === f ? 600 : 400,
+              transition: 'all 0.2s',
+            }}>{f}</button>
+          ))}
+        </div>
       </div>
 
       {/* Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(340px, 1fr))',
+        gap: '16px',
+      }}>
         <AnimatePresence>
-          {filtered.map((p) => (
-            <motion.div key={p.name}
-              layout
-              initial={{ opacity: 0, scale: 0.95 }}
+          {filtered.map(p => (
+            <motion.div
+              key={p.name} layout
+              initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
+              exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.25 }}
-              onClick={() => openProject(p.slug)}
+              onClick={() => navigate(`/projects/${p.slug}`)}
               style={{
-                background: t.card,
-                border: `0.5px solid ${t.cardBorder}`,
-                borderRadius: '12px',
-                overflow: 'hidden',
-                cursor: 'pointer',
-                transition: 'border-color 0.25s, transform 0.2s',
+                background: t.card, border: `0.5px solid ${t.cardBorder}`,
+                borderRadius: '14px', overflow: 'hidden', cursor: 'pointer',
+                transition: 'all 0.25s',
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.borderColor = t.hoverBorder
-                e.currentTarget.style.transform = 'translateY(-3px)'
+                e.currentTarget.style.transform = 'translateY(-4px)'
+                e.currentTarget.style.boxShadow = `0 16px 48px ${t.accentGlow}`
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.borderColor = t.cardBorder
                 e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = 'none'
               }}
             >
+              {/* Image */}
               {p.image ? (
-                <div style={{ position: 'relative', height: isMobile ? '160px' : '180px', overflow: 'hidden' }}>
-                  <img src={p.image} alt={p.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '60px', background: 'linear-gradient(to top, rgba(0,0,0,0.5), transparent)' }} />
-                  <div style={{ position: 'absolute', top: '10px', left: '10px', fontSize: '10px', fontFamily: 'monospace', padding: '3px 10px', borderRadius: '4px', background: 'rgba(0,0,0,0.5)', color: '#fff', backdropFilter: 'blur(4px)' }}>
-                    {p.category.toUpperCase()}
+                <div style={{ height: '180px', overflow: 'hidden', position: 'relative' }}>
+                  <img src={p.image} alt={p.name} style={{
+                    width: '100%', height: '100%', objectFit: 'cover',
+                    objectPosition: 'top', display: 'block',
+                  }} />
+                  <div style={{
+                    position: 'absolute', inset: 0,
+                    background: 'linear-gradient(to top, rgba(18,18,26,0.8) 0%, transparent 60%)',
+                  }} />
+                  <div style={{ position: 'absolute', top: '12px', left: '12px' }}>
+                    <span style={{
+                      fontSize: '10px', fontFamily: 'monospace', padding: '3px 10px',
+                      borderRadius: '4px', background: 'rgba(0,0,0,0.6)',
+                      color: '#fff', backdropFilter: 'blur(4px)', letterSpacing: '0.05em',
+                    }}>{p.category.toUpperCase()}</span>
                   </div>
-                  <div style={{ position: 'absolute', top: '8px', right: '8px', display: 'flex', gap: '6px' }}>
-                    <a href={p.live} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '13px', textDecoration: 'none', backdropFilter: 'blur(4px)' }}>
-                      <i className="ti ti-external-link" aria-hidden="true" />
-                    </a>
-                    <a href={p.github} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '13px', textDecoration: 'none', backdropFilter: 'blur(4px)' }}>
-                      <i className="ti ti-brand-github" aria-hidden="true" />
+                  <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', gap: '6px' }}>
+                    <a href={p.github} target="_blank" rel="noreferrer"
+                      onClick={e => e.stopPropagation()}
+                      style={{
+                        width: '30px', height: '30px', borderRadius: '7px',
+                        background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        color: '#fff', fontSize: '14px', textDecoration: 'none',
+                      }}>
+                      <i className="ti ti-brand-github" />
                     </a>
                   </div>
                 </div>
               ) : (
-                <div style={{ height: '140px', background: t.accentFade, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                  <i className={`ti ${p.icon}`} style={{ fontSize: '48px', color: t.accent, opacity: 0.4 }} aria-hidden="true" />
-                  <div style={{ position: 'absolute', top: '10px', left: '10px', fontSize: '10px', fontFamily: 'monospace', padding: '3px 10px', borderRadius: '4px', background: t.accentFade, color: t.accent, border: `0.5px solid ${t.accentFade}` }}>
-                    {p.category.toUpperCase()}
-                  </div>
-                  <div style={{ position: 'absolute', top: '8px', right: '8px', display: 'flex', gap: '6px' }}>
-                    <a href={p.live} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} style={{ width: '28px', height: '28px', borderRadius: '6px', border: `0.5px solid ${t.cardBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: t.textDim, fontSize: '13px', textDecoration: 'none' }}>
-                      <i className="ti ti-external-link" aria-hidden="true" />
-                    </a>
-                    <a href={p.github} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} style={{ width: '28px', height: '28px', borderRadius: '6px', border: `0.5px solid ${t.cardBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: t.textDim, fontSize: '13px', textDecoration: 'none' }}>
-                      <i className="ti ti-brand-github" aria-hidden="true" />
-                    </a>
+                <div style={{
+                  height: '140px', background: t.surface,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  position: 'relative',
+                }}>
+                  <i className={`ti ${p.icon}`} style={{ fontSize: '44px', color: t.accent, opacity: 0.3 }} />
+                  <div style={{ position: 'absolute', top: '12px', left: '12px' }}>
+                    <span style={{
+                      fontSize: '10px', fontFamily: 'monospace', padding: '3px 10px',
+                      borderRadius: '4px', background: t.accentFade, color: t.accent,
+                      border: `0.5px solid ${t.tagBorder}`,
+                    }}>{p.category.toUpperCase()}</span>
                   </div>
                 </div>
               )}
 
-              <div style={{ padding: isMobile ? '14px' : '16px' }}>
-                <div style={{ fontSize: '15px', fontWeight: 600, color: t.text, marginBottom: '6px' }}>{p.name}</div>
-                <div style={{ fontSize: '12px', color: t.textSub, lineHeight: 1.65, marginBottom: '12px' }}>{p.desc}</div>
+              {/* Body */}
+              <div style={{ padding: '16px' }}>
+                <div style={{ fontSize: '15px', fontWeight: 700, color: '#fff', marginBottom: '6px' }}>{p.name}</div>
+                <div style={{ fontSize: '12px', color: t.textSub, lineHeight: 1.65, marginBottom: '14px' }}>{p.desc}</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', paddingTop: '12px', borderTop: `0.5px solid ${t.border}` }}>
+                  {p.stack?.map(s => <TechBadge key={s.label} label={s.label} />)}
+                </div>
+              </div>
 
-                {p.stack && (
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', paddingTop: '10px', borderTop: `0.5px solid ${t.border}` }}>
-                    {p.stack.map((s) => (
-                      <StackBadge key={s.label} label={s.label} />
-                    ))}
-                  </div>
-                )}
+              {/* View Project link */}
+              <div style={{
+                padding: '10px 16px', borderTop: `0.5px solid ${t.border}`,
+                display: 'flex', alignItems: 'center', gap: '6px',
+                fontSize: '12px', color: t.accent, fontWeight: 600,
+              }}>
+                View Project
+                <i className="ti ti-arrow-right" style={{ fontSize: '13px' }} />
               </div>
             </motion.div>
           ))}
