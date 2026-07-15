@@ -107,7 +107,7 @@ export default function About({ theme: t }) {
               position: 'relative', overflow: 'hidden',
             }}>
               <img
-                src="/avatar-cursor.png"
+                src="/shaheed.jpg"
                 alt="Hafiz Shaheed"
                 style={{
                   height: '100%', objectFit: 'cover',
