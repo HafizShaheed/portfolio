@@ -1,43 +1,57 @@
 // api/match.js
-// Job description ko Hafiz ke resume se compare karta hai
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Only POST allowed' });
   }
 
   const { jobDescription } = req.body;
-
   if (!jobDescription || jobDescription.trim().length < 20) {
     return res.status(400).json({ error: 'Please provide a valid job description' });
   }
 
   const resumeData = `
-HAFIZ SHAHEED UL ISLAM - Full Stack Developer Resume
+HAFIZ SHAHEED UL ISLAM — Senior Full Stack Developer
 
-SKILLS: Laravel, PHP (OOP/MVC), React.js, Next.js, Nuxt.js, Node.js, Express.js, 
-JavaScript ES6+, HTML5, CSS3, Tailwind CSS, MySQL, MongoDB, PostgreSQL, Oracle,
-REST API Development, Stripe, PayPal integration, AWS (EC2, S3, RDS), Docker, 
-CI/CD Pipelines, cPanel, Git, GitHub, Postman, JWT Authentication, RBAC
+SKILLS:
+Frontend: React.js, Next.js, Nuxt.js, Vue.js, JavaScript ES6+, TypeScript, HTML5, CSS3, Tailwind CSS, Bootstrap
+Backend: Laravel (Expert), PHP OOP/MVC, Node.js, Express.js, CodeIgniter
+Database: MySQL, MongoDB, PostgreSQL, Oracle
+APIs: REST API, GraphQL, Socket.io, Pusher
+Payments: Stripe, PayPal, HelloSign
+DevOps: AWS (EC2, S3, RDS), Docker, CI/CD Pipelines, cPanel
+Auth: JWT Authentication, RBAC (100+ roles managed)
+Tools: Git, GitHub, Postman, VS Code, Jira
 
 EXPERIENCE: 4+ years
-- Senior Full Stack Developer at Hamdard University (May 2024-Present): Built Q-Bank system 
-  for 500+ users, ERP modules (HR/Payroll/Finance), RBAC with 100+ roles, JWT auth
-- Full Stack Developer at Kdys Lab (Aug 2023-May 2024): eCommerce/CRM systems, 
-  Stripe/PayPal integration, background job queues, Node.js backend services
-- PHP Laravel Developer at Midline Presence (Apr 2022-Aug 2023): REST APIs, 
-  AWS infrastructure, SQL optimization
-- Junior Laravel Developer at DivsnPixel (Oct 2021-Apr 2022): Backend modules, RBAC
+1. Senior Full Stack Developer — Hamdard University (May 2024–Present)
+   Built Q-Bank system for 500+ users. ERP modules (HR/Payroll/Finance).
+   40% efficiency improvement. JWT + RBAC with 100+ roles.
 
-PROJECTS: 28+ projects including ERP systems, SaaS dashboards, multi-tenant platforms,
-eCommerce stores, CRM systems, booking platforms, HR systems, chat applications,
-background verification systems, logistics platforms
+2. Full Stack Developer — Kdys Lab (Aug 2023–May 2024)
+   eCommerce & CRM systems, 1000+ daily records.
+   Stripe/PayPal integration. Node.js backend services.
 
-EDUCATION: BS Computer Science (2022), ACCP-Pro Software Engineering (2018)
-LOCATION: Karachi, Pakistan. Open to Remote, Hybrid, Onsite, Contract, Full-time, Part-time.
+3. PHP Laravel Developer — Midline Presence (Apr 2022–Aug 2023)
+   REST APIs for web/mobile. AWS infrastructure. SQL optimization.
+
+4. Junior Laravel Developer — DivsnPixel (Oct 2021–Apr 2022)
+   Backend modules, REST APIs, student CRM system.
+
+5. Intern/Junior Developer — Connect Marketing Communication (Dec 2019–Sep 2021)
+   Laravel & PHP web applications.
+
+PROJECTS: 42+ including ERP, SaaS, multi-tenant platforms, eCommerce, CRM,
+booking systems, HR systems, real-time chat apps, medical lab systems, logistics platforms.
+
+EDUCATION:
+- BSc Computer Science (2018–2022)
+- ACCP Pro Software Engineering (2016–2018)
+
+AVAILABILITY: Remote, Hybrid, Onsite, Contract, Full-time, Part-time. Immediate joiner.
+LOCATION: Karachi, Pakistan.
 `;
 
-  const prompt = `You are a technical recruiter analyzing job fit. Compare this candidate's resume against the job description below.
+  const prompt = `You are a senior technical recruiter. Analyze how well this candidate matches the job description.
 
 CANDIDATE RESUME:
 ${resumeData}
@@ -48,9 +62,9 @@ ${jobDescription}
 Respond ONLY in this exact JSON format, no markdown, no extra text:
 {
   "matchScore": <number 0-100>,
-  "matchingSkills": ["skill1", "skill2", ...],
-  "missingSkills": ["skill1", "skill2", ...],
-  "summary": "<2-3 sentence honest assessment>"
+  "matchingSkills": ["skill1", "skill2", "skill3"],
+  "missingSkills": ["skill1", "skill2"],
+  "summary": "<2-3 sentence honest, specific assessment mentioning key strengths and gaps>"
 }`;
 
   try {
@@ -69,14 +83,9 @@ Respond ONLY in this exact JSON format, no markdown, no extra text:
     });
 
     const data = await response.json();
-
-    if (!response.ok) {
-      console.error('Groq error:', data);
-      return res.status(500).json({ error: 'AI service error' });
-    }
+    if (!response.ok) return res.status(500).json({ error: 'AI service error' });
 
     let raw = data.choices[0].message.content.trim();
-    // Kabhi AI markdown code block mein wrap kar deta hai, usko clean karo
     raw = raw.replace(/```json|```/g, '').trim();
 
     const result = JSON.parse(raw);

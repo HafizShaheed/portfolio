@@ -1,65 +1,79 @@
 // api/chat.js
-// Yeh function Vercel par automatically backend endpoint ban jata hai
-// URL: https://yoursite.vercel.app/api/chat
-
 export default async function handler(req, res) {
-  // Step 1: Sirf POST request allow karo (security)
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Only POST allowed' });
   }
 
-  // Step 2: User ka message nikalo jo frontend se aaya
   const { message } = req.body;
+  if (!message) return res.status(400).json({ error: 'Message required' });
 
-  if (!message) {
-    return res.status(400).json({ error: 'Message required' });
-  }
-
-  // Step 3: Hafiz ka resume data - AI ko context dene ke liye
   const resumeContext = `
-You are an AI assistant representing Hafiz Shaheed Ul Islam, a Full Stack Developer.
-Answer questions about him professionally and concisely based ONLY on this information:
+You are an AI assistant representing Hafiz Shaheed Ul Islam, a Senior Full Stack Developer.
+Answer questions professionally and concisely based ONLY on this information:
 
 PROFESSIONAL SUMMARY:
-Full Stack Developer with 4+ years experience in Laravel, React.js, Node.js. 
-Specialized in REST APIs, multi-tenant SaaS systems, ERP/CRM platforms, database optimization.
-Based in Karachi, Pakistan. Open to Remote, Hybrid, Full-Time, Part-Time, Contract.
-Immediate joiner.
+Senior Full Stack Developer with 4+ years experience specializing in Laravel, React.js & Node.js.
+Expert in building scalable enterprise systems, SaaS platforms, ERP/CRM solutions & REST APIs.
+Based in Karachi, Pakistan. Open to Remote, Hybrid, Full-Time, Part-Time, Contract. Immediate joiner.
+Portfolio: portfolio-hafiiz-shaheed.vercel.app
 
 TECHNICAL SKILLS:
-Frontend: React.js, Next.js, Nuxt.js, JavaScript ES6+, HTML5, CSS3, Tailwind CSS
-Backend: Laravel, PHP OOP/MVC, Node.js, Express.js
+Frontend: React.js, Next.js, Nuxt.js, Vue.js, JavaScript ES6+, HTML5, CSS3, Tailwind CSS, Bootstrap
+Backend: Laravel (Expert), PHP OOP/MVC, Node.js, Express.js, CodeIgniter
 Database: MySQL, MongoDB, PostgreSQL, Oracle
-APIs: REST API, Stripe, PayPal integration
-DevOps: AWS (EC2, S3, RDS), Docker, CI/CD, cPanel
-Tools: Git, GitHub, Postman, VS Code, Jira
+APIs & Integrations: REST API, GraphQL, Stripe, PayPal, HelloSign, Socket.io, Pusher
+DevOps & Cloud: AWS (EC2, S3, RDS), Docker, CI/CD, Git, GitHub, cPanel
+Tools: Postman, VS Code, Jira, JWT Authentication, RBAC
 
-EXPERIENCE:
-1. Senior Full Stack Developer at Hamdard University (May 2024-Present)
-   - Built nationwide Q-Bank system for 500+ users
-   - Built ERP modules (HR, Payroll, Finance), improved efficiency by 40%
-   - JWT auth, RBAC with 100+ roles
+WORK EXPERIENCE:
+1. Senior Full Stack Developer — Hamdard University (May 2024 – Present)
+   - Built nationwide Q-Bank system serving 500+ users across multiple campuses
+   - Developed ERP modules: HR, Payroll & Finance — improved operational efficiency by 40%
+   - Implemented JWT auth system with 100+ RBAC roles
+   - Tech: Laravel, React.js, Next.js, MySQL, JWT
 
-2. Full Stack Developer at Kdys Lab (Aug 2023-May 2024)
-   - Built eCommerce/CRM systems, 1000+ records daily
-   - Stripe/PayPal integration
+2. Full Stack Developer — Kdys Lab (Aug 2023 – May 2024)
+   - Built scalable eCommerce & CRM systems processing 1,000+ records daily
+   - Integrated Stripe & PayPal payment gateways
+   - Implemented background job queues & Node.js backend services
+   - Tech: Laravel, Node.js, React.js, MySQL, Stripe
 
-3. PHP Laravel Developer at Midline Presence (Apr 2022-Aug 2023)
-   - REST APIs for web/mobile apps
-   - AWS infrastructure management
+3. PHP Laravel Developer — Midline Presence (Apr 2022 – Aug 2023)
+   - Developed REST APIs for web & mobile applications
+   - Managed AWS deployments & performed SQL optimization
+   - Tech: Laravel, PHP, MySQL, AWS, REST API
 
-4. Junior Laravel Developer at DivsnPixel (Oct 2021-Apr 2022)
+4. Junior Laravel Developer — DivsnPixel (Oct 2021 – Apr 2022)
+   - Built backend modules, REST APIs & student CRM system
+   - Tech: Laravel, PHP, MySQL
 
-KEY PROJECTS: ERP Systems, SaaS Dashboards, eCommerce platforms, CRM systems, 
-DevBook (room booking), iScreening (background verification), 28+ total projects.
+5. Intern / Junior Developer — Connect Marketing Communication (Dec 2019 – Sep 2021)
+   - Started as intern, promoted to junior developer
+   - Built web applications using Laravel & PHP
 
-EDUCATION: BS Computer Science (2022), ACCP-Pro Software Engineering (2018)
+KEY PROJECTS (42+ Total):
+- Q-Bank System (Hamdard University): Nationwide exam system with analytics & automated paper generation
+- ERP System: HR, Payroll & Finance modules for university operations
+- SaaS Dashboard: Multi-tenant platform with isolated environments
+- Lab Optimal: Real-time medical lab management (Node.js + React + Socket.io + AWS)
+- DevBook: Full-featured room booking platform with RBAC
+- iScreening: Enterprise background verification platform
+- EdgieDev Blog: Developer blogging platform with GraphQL API
+- People & Pro: Complete HR system with payroll
+- 35+ more enterprise projects
 
-CONTACT: shaheedkhan336@gmail.com, +92 341 2427229
-LinkedIn: linkedin.com/in/hafiz-shaheed-b17796141
+EDUCATION:
+- BSc Computer Science — Newports Institute of Communications & Economics (2018–2022)
+- ACCP Pro Software Engineering — Aptech Computer Education (2016–2018)
+
+CONTACT:
+Email: shaheedkhan336@gmail.com
+Phone: +92 341 2427229 | +92 307 2241918
+LinkedIn: linkedin.com/in/hafiz-shaheed-full-stack-developer
 GitHub: github.com/HafizShaheed
+Portfolio: portfolio-hafiiz-shaheed.vercel.app
 
-Rules:
+RULES:
 - Keep answers SHORT (2-4 sentences max)
 - Be professional but friendly
 - If asked something not in this data, say you don't have that info and suggest contacting Hafiz directly
@@ -67,16 +81,14 @@ Rules:
 `;
 
   try {
-    // Step 4: Groq ko API call karo
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        // Secret key environment variable se aati hai - kabhi expose nahi hoti
         'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile', // Free, fast Groq model
+        model: 'llama-3.3-70b-versatile',
         messages: [
           { role: 'system', content: resumeContext },
           { role: 'user', content: message },
@@ -87,14 +99,8 @@ Rules:
     });
 
     const data = await response.json();
+    if (!response.ok) return res.status(500).json({ error: 'AI service error' });
 
-    // Step 5: Agar Groq se error aaya
-    if (!response.ok) {
-      console.error('Groq error:', data);
-      return res.status(500).json({ error: 'AI service error' });
-    }
-
-    // Step 6: AI ka jawab nikalo aur frontend ko bhejo
     const reply = data.choices[0].message.content;
     return res.status(200).json({ reply });
 

@@ -1,7 +1,7 @@
 // src/components/CursorFollower.jsx
 import { useState, useEffect, useRef } from 'react'
 
-export default function CursorFollower({ theme: t }) {
+export default function CursorFollower({ theme: t, cursorImage = '/running-avatar.png' }) {
   const avatarRef = useRef(null)
   const [isVisible, setIsVisible] = useState(false)
   const [facingLeft, setFacingLeft] = useState(false)
@@ -19,7 +19,6 @@ export default function CursorFollower({ theme: t }) {
       if (movingLeft) setFacingLeft(true)
       if (movingRight) setFacingLeft(false)
       lastX.current = e.clientX
-
       target.current = { x: e.clientX, y: e.clientY }
       if (!isVisible) setIsVisible(true)
     }
@@ -30,7 +29,6 @@ export default function CursorFollower({ theme: t }) {
     const animate = () => {
       pos.current.x += (target.current.x - pos.current.x) * 0.1
       pos.current.y += (target.current.y - pos.current.y) * 0.1
-
       if (avatarRef.current) {
         avatarRef.current.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px)`
       }
@@ -44,41 +42,31 @@ export default function CursorFollower({ theme: t }) {
     }
   }, [isVisible])
 
-  if (typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches) {
-    return null
-  }
+  if (typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches) return null
 
   return (
     <div
       ref={avatarRef}
       style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '25px',
-        height: '25px',
-        marginLeft: '-20px',
-        marginTop: '-34px',
-        borderRadius: '100%',       // gol shape
-        overflow: 'hidden',         // andar ki cheez circle se bahar nahi dikhegi
+        position: 'fixed', top: 0, left: 0,
+        width: '60px', height: '60px',
+        marginLeft: '-30px', marginTop: '-54px',
+        borderRadius: '50%', overflow: 'hidden',
         border: `2px solid ${t.accent}`,
-        pointerEvents: 'none',
-        zIndex: 9999,
+        pointerEvents: 'none', zIndex: 9999,
         opacity: isVisible ? 0.95 : 0,
         transition: 'opacity 0.3s ease',
         willChange: 'transform',
-        boxShadow: `0 4px 16px rgba(0,0,0,0.35), 0 0 0 3px ${t.accentFade}`,
-        background: t.bg,
+        boxShadow: `0 4px 16px rgba(99,102,241,0.3), 0 0 0 3px rgba(99,102,241,0.1)`,
+        background: t.card,
       }}
     >
       <img
-        src="/running-avatar.png"
+        src={cursorImage}
         alt=""
         style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',     // circle ko poora fill karega
-          objectPosition: 'top',  // chehra upar rakhega, taang neeche crop ho jayengi
+          width: '100%', height: '100%',
+          objectFit: 'cover', objectPosition: 'top',
           display: 'block',
           transform: facingLeft ? 'scaleX(-1)' : 'scaleX(1)',
           transition: 'transform 0.15s ease',
