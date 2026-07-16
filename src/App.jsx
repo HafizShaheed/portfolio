@@ -78,7 +78,7 @@ function MainApp() {
           <Routes>
             <Route path="/" element={<HomePage theme={theme} images={images} />} />
             <Route path="/projects/:slug" element={<ProjectDetail theme={theme} />} />
-            <Route path="/uploadImages" element={<AdminPanel />} />
+            <Route path="/admin" element={<AdminPanel />} />
           </Routes>
         )}
         <AIChatbot theme={theme} />
