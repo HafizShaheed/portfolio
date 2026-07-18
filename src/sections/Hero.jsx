@@ -1,4 +1,3 @@
-
 // src/sections/Hero.jsx
 // FIXED: usePortfolioImages directly use karta hai - prop ki zaroorat nahi
 import { useEffect, useState } from 'react'

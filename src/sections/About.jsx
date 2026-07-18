@@ -1,4 +1,3 @@
-
 // src/sections/About.jsx
 // FIXED: usePortfolioImages directly use karta hai
 import { motion } from 'framer-motion'
