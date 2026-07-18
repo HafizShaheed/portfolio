@@ -83,7 +83,7 @@ function MainApp() {
           </Routes>
         )}
         <AIChatbot theme={theme} />
-        <TawkChat />
+        {/* <TawkChat /> */}
         <CursorFollower theme={theme} cursorImage={images.cursor} />
       </div>
     </>
