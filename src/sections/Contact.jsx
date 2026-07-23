@@ -217,7 +217,7 @@ export default function Contact({ theme: t }) {
             Full Stack Developer · Crafting Scalable Systems. Delivering Real Impact.
           </div>
           <div style={{ fontSize: '11px', color: '#1a1a2e', marginTop: '4px' }}>
-            © 2026Hafiz Shaheed Ul Islam. All rights reserved.
+            © 2026 Hafiz Shaheed Ul Islam. All rights reserved.
           </div>
         </div>
 
